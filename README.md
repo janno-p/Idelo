@@ -48,27 +48,24 @@ nende tegudest ette kanda.*
 Kasutamine:
 
   * Registreerimine
-
     * Kasutajanimeks võtke e-posti aadress
 
   * Sisselogimine
-  * Nimekiri - kodanikest kelle kohta on antud kasutaja kaebusi esitanud
 
+  * Nimekiri - kodanikest kelle kohta on antud kasutaja kaebusi esitanud
     * Võimalus sortida
     * Võimalus vaadelda nimekirja sündmuste tüüpide kaupa
 
   * Konkreetse kodaniku vaade - kuvatakse ainult sisseloginud kasutaja kaebused
-  * Julgeolekutöötaja vaade - kuvatakse kõik kodaniku kohta saadaolev info
 
+  * Julgeolekutöötaja vaade - kuvatakse kõik kodaniku kohta saadaolev info
     * Sündmuste tüüpide lisamine
 
   * Otsing
-
     * Lihtne otsing
     * Täpsem otsing
 
   * Kodanik:
-
     * Nimi
     * Sugu
     * Sünniaeg
@@ -76,7 +73,6 @@ Kasutamine:
     * Foto
 
   * Kaebus:
-
     * Episoodi pealkiri
     * Sündmuse tüüp (sildiloogikaga (tag))
     * Kellaeg
