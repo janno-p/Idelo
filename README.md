@@ -2,10 +2,10 @@
 
 ## Labor 1: UI Prototüüp ##
 
-Labori kirjeldus on võetud aadressilt
+*Labori kirjeldus on võetud aadressilt
 [http://lambda.ee/wiki/UI_Protot%C3%BC%C3%BCp](http://lambda.ee/wiki/UI_Protot%C3%BC%C3%BCp), mille
 materjalid on kasutatavad [GNU Free Documentation License 1.2](http://www.gnu.org/copyleft/fdl.html)
-tingimustel.
+tingimustel.*
 
 Praktikumi eesmärk on
 
