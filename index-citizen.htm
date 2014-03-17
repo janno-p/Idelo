@@ -7,7 +7,7 @@
     <title>iDELO Virtuaaltoimik</title>
 
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/bootstrap.css" rel="stylesheet" />
 
     <link href="css/idelo.css" rel="stylesheet" />
 
@@ -19,35 +19,39 @@
     <![endif]-->
   </head>
   <body>
-    <div class="jumbotron">
-      <div class="container">
-        <h1>Teretulemast!</h1>
-        <p>iDELO on virtuaaltoimiku programm, mille abil on võimalik igal Molvaania kodanikul üles
-        näidata patriotismi kodumaa vastu.</p>
-        <p>Oma kaaskodanike ebapatriootlike sammude kirja panemiseks logi sisse.</p>
-        <p>Kui sa ei ole varem iDELO virtuaaltoimikut kasutanud, siis pead esmalt registreeruma uueks kasutajaks.</p>
-        <p><a class="btn btn-primary btn-lg" role="button">Registreeru kasutajaks &raquo;</a></p>
-      </div>
-    </div>
-
     <div class="container">
       <div class="row">
-        <div class="col-md-4">
-          <img class="img-circle" data-src="holder.js/140x140" alt="Generic placeholder image" />
-          <h2>Autasustamine</h2>
-          <p>iDELO virtuaalne preemiate süsteem avaldab kasutajatele tunnustust Molvaania muutmisel paremaks paigaks.</p>
-        </div>
+        <h1>Kaebused <small>(minu poolt esitatud kaebused)</small></h1>
+        
+        <table id="complaints" class="table table-hover">
+          <thead>
+            <tr>
+              <th>Episoodi pealkiri<div class="pull-right"><a href="#"><span class="glyphicon glyphicon-sort"></span></a></div></th>
+              <th>Kellaaeg<div class="pull-right"><a href="#"><span class="glyphicon glyphicon-sort"></span></a></div></th>
+              <th>Kodanik<div class="pull-right"><a href="#"><span class="glyphicon glyphicon-sort"></span></a></div></th>
+              <th>Sündmuse tüüp</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Test</td>
+              <td>15.03.2014 17:10</td>
+              <td>Madis Mets</td>
+              <td>mitu, erinevat, tüüpi, komadega, eraldatud</td>
+            </tr>
+          </tbody>
+        </table>
 
-        <div class="col-md-4">
-          <img class="img-circle" data-src="holder.js/140x140" alt="Generic placeholder image" />
-          <h2>Tagasiside</h2>
-          <p>iDELO pakub kasutajale infot selle kohta, mis tema kaebustest on edasi saanud. Praktiliselt reaalajas on võimalik näha, kui avalduse subjekt arreteeritakse ning milline karistus talle edasise uurimise tulemusena määratakse.</p>
-        </div>
-
-        <div class="col-md-4">
-          <img class="img-circle" data-src="holder.js/140x140" alt="Generic placeholder image" />
-          <h2>Statistika</h2>
-          <p>iDELO kasutajal on hea ülevaade enda poolt tehtud kaebuste kohta. Enam ei ole vaja pidada personaalset märkmikku.</p>
+        <div class="text-center">
+          <ul class="pagination">
+            <li class="disabled"><span>&laquo;</span></li>
+            <li class="active"><span>1 <span class="sr-only">(current)</span></span></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#">&raquo;</a></li>
+          </ul>
         </div>
       </div>
 
