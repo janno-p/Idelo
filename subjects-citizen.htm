@@ -21,24 +21,18 @@
   <body>
     <div class="container">
       <div class="row">
-        <h1>Kaebused <small>(minu poolt esitatud kaebused)</small></h1>
+        <h1>Kodanikud <small>(minu kaebuste subjektid)</small></h1>
         
-        <table id="complaints" class="table table-hover">
+        <table id="subjects" class="table table-hover">
           <thead>
             <tr>
-              <th><a href="#"><span class="glyphicon glyphicon-sort"></span></a> Episoodi pealkiri</th>
-              <th><a href="#"><span class="glyphicon glyphicon-sort"></span></a> Kellaaeg</th>
-              <th><a href="#"><span class="glyphicon glyphicon-sort"></span></a> Subjekt</th>
-              <th>Sündmuse tüüp</th>
+              <th><a data-id="name" class="subject-sort" href="#"><span class="glyphicon glyphicon-sort"></span></a> Nimi</th>
+              <th><a data-id="birthDate" class="subject-sort" href="#"><span class="glyphicon glyphicon-sort"></span></a> Sünniaeg</th>
+              <th><a data-id="gender" class="subject-sort" href="#"><span class="glyphicon glyphicon-sort"></span></a> Sugu</th>
+              <th><a data-id="address" class="subject-sort" href="#"><span class="glyphicon glyphicon-sort"></span></a> Elukoht</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Test</td>
-              <td>15.03.2014 17:10</td>
-              <td>Madis Mets</td>
-              <td><span class="label label-info">mitu</span> <span class="label label-info">erinevat</span> <a href="#"><span class="label label-info">tüüpi</span></a> <span class="label label-info">komadega</span> <span class="label label-info">eraldatud / 11</span></td>
-            </tr>
           </tbody>
         </table>
 
@@ -70,6 +64,6 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/docs.min.js"></script>
 
-    <script src="js/idelo/index-citizen.js"></script>
+    <script src="js/idelo/subjects-citizen.js"></script>
   </body>
 </html>

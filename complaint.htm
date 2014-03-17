@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>iDELO Virtuaaltoimik</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.css" rel="stylesheet" />
+
+    <link href="css/idelo.css" rel="stylesheet" />
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+      <script src="js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <h1>Uue kaebuse lisamine</h1>
+        
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label for="complaint-title" class="col-sm-2 control-label">Episoodi pealkiri:</label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" id="complaint-title" name="complaint-title" placeholder="Episoodi pealkiri" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="complaint-type" class="col-sm-2 control-label">Sündmuse tüüp:</label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" id="complaint-type" name="complaint-type" placeholder="Sündmuse tüüp" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="complaint-time" class="col-sm-2 control-label">Kellaaeg:</label>
+            <div class="col-sm-6">
+              <div class="input-group">
+                <input type="datetime" class="form-control" id="complaint-time" name="complaint-time" placeholder="PP.KK.AAAA TT:MM" />
+                <span class="input-group-btn">
+                  <button class="btn btn-default" id="select-date" type="button">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="complaint-location" class="col-sm-2 control-label">Asukoht:</label>
+            <div class="col-sm-6">
+              <div class="input-group">
+                <input type="text" class="form-control" id="complaint-location" name="complaint-location" placeholder="Asukoht kaardil" />
+                <span class="input-group-btn">
+                  <button class="btn btn-default" id="select-location" type="button">
+                    <span class="glyphicon glyphicon-map-marker"></span>
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="complaint-description" class="col-sm-2 control-label">Kirjeldus:</label>
+            <div class="col-sm-6">
+              <textarea class="form-control" rows="3" id="complaint-description" name="complaint-description" placeholder="Kirjeldus"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-default">Salvesta</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <hr />
+
+      <footer>
+        <p>&copy; iDELO 2014</p>
+      </footer>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
+
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/docs.min.js"></script>
+
+    <script src="js/idelo/index-citizen.js"></script>
+  </body>
+</html>
