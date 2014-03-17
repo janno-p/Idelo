@@ -1,0 +1,149 @@
+[
+  {
+    "name": "Malvine Kaselaid",
+    "gender": "Naine",
+    "birthDate": "1940-06-21T00:00:00.000Z",
+    "address": "Ida-Virumaa, Koonga vald, Tessova küla",
+    "photo": ""
+  },
+  {
+    "name": "Argos Juursoo",
+    "gender": "Mees",
+    "birthDate": "1987-01-05T00:00:00.000Z",
+    "address": "Pärnumaa, Koonga vald, Kuimetsa küla",
+    "photo": ""
+  },
+  {
+    "name": "Maiga Sarefjanov",
+    "gender": "Naine",
+    "birthDate": "1976-07-18T00:00:00.000Z",
+    "address": "Viljandimaa, Lüganuse vald, Kohatu küla",
+    "photo": ""
+  },
+  {
+    "name": "Kristelle Saareväli",
+    "gender": "Naine",
+    "birthDate": "1956-01-12T00:00:00.000Z",
+    "address": "Järvamaa, Kasepää vald, Järvejõe küla",
+    "photo": ""
+  },
+  {
+    "name": "Jaava Liitoja",
+    "gender": "Naine",
+    "birthDate": "1957-04-01T00:00:00.000Z",
+    "address": "Pärnumaa, Kohila vald, Laekvere alevik",
+    "photo": ""
+  },
+  {
+    "name": "Unto Langheim",
+    "gender": "Mees",
+    "birthDate": "1967-08-08T00:00:00.000Z",
+    "address": "Valgamaa, Räpina vald, Varkja küla",
+    "photo": ""
+  },
+  {
+    "name": "Siiri Ervin",
+    "gender": "Naine",
+    "birthDate": "1957-05-14T00:00:00.000Z",
+    "address": "",
+    "photo": ""
+  },
+  {
+    "name": "Lagle Kubba",
+    "gender": "Naine",
+    "birthDate": "1985-04-06T00:00:00.000Z",
+    "address": "Järvamaa, Taheva vald, Paenasti küla",
+    "photo": ""
+  },
+  {
+    "name": "Ambrosius Mertz",
+    "gender": "Mees",
+    "birthDate": "1980-08-10T00:00:00.000Z",
+    "address": "Põlvamaa, Värska vald, Arbavere küla",
+    "photo": ""
+  },
+  {
+    "name": "Bengt Pihelgas",
+    "gender": "Mees",
+    "birthDate": "1948-10-02T00:00:00.000Z",
+    "address": "Läänemaa, Vastseliina vald, Sootaguse küla",
+    "photo": ""
+  },
+  {
+    "name": "Iiva Rumessen",
+    "gender": "Naine",
+    "birthDate": "1945-04-11T00:00:00.000Z",
+    "address": "Ida-Virumaa, Väätsa vald, Tsiiruli küla",
+    "photo": ""
+  },
+  {
+    "name": "Agaape Hallik",
+    "gender": "Naine",
+    "birthDate": "1961-11-25T00:00:00.000Z",
+    "address": "Hiiumaa, Narva-Jõesuu linn, Kanavere 36 - 37",
+    "photo": ""
+  },
+  {
+    "name": "Marek Hindrikson",
+    "gender": "Mees",
+    "birthDate": "1987-03-12T00:00:00.000Z",
+    "address": "Võrumaa, Viljandi vald, Kokõ küla",
+    "photo": ""
+  },
+  {
+    "name": "Gerald Bringfeld",
+    "gender": "Mees",
+    "birthDate": "1980-09-02T00:00:00.000Z",
+    "address": "Valgamaa, Laimjama vald, Keila-Joa alevik",
+    "photo": ""
+  },
+  {
+    "name": "Hasson Kärdma",
+    "gender": "Mees",
+    "birthDate": "1991-09-25T00:00:00.000Z",
+    "address": "Hiiumaa, Tõrva linn, Putkaste 125 - 11",
+    "photo": ""
+  },
+  {
+    "name": "Ramm Lepasepp",
+    "gender": "Mees",
+    "birthDate": "1973-06-20T00:00:00.000Z",
+    "address": "Järvamaa, Kaisma vald, Polovina küla",
+    "photo": ""
+  },
+  {
+    "name": "Mirelle Kopel",
+    "gender": "Naine",
+    "birthDate": "1981-09-14T00:00:00.000Z",
+    "address": "Raplamaa, Narva-Jõesuu linn, Hiievälja 73 - 13",
+    "photo": ""
+  },
+  {
+    "name": "Mae Eesmaa",
+    "gender": "Naine",
+    "birthDate": "1958-06-07T00:00:00.000Z",
+    "address": "Valgamaa, Urvaste vald, Suurepsi küla",
+    "photo": ""
+  },
+  {
+    "name": "Loreida MacCelway",
+    "gender": "Naine",
+    "birthDate": "1943-10-12T00:00:00.000Z",
+    "address": "Valgamaa, Põlva linn, Lellapere 134 - 28",
+    "photo": ""
+  },
+  {
+    "name": "Vivianna Kapralov",
+    "gender": "Naine",
+    "birthDate": "1954-06-08T00:00:00.000Z",
+    "address": "Pärnumaa, Sangaste vald, Ängi küla",
+    "photo": ""
+  },
+  {
+    "name": "Albo Nikitin",
+    "gender": "Mees",
+    "birthDate": "1961-04-02T00:00:00.000Z",
+    "address": "Hiiumaa, Rägavere vald, Kauru küla",
+    "photo": ""
+  }
+]
