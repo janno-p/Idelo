@@ -50,7 +50,7 @@ Kasutamine:
   * Registreerimine
     * Kasutajanimeks võtke e-posti aadress
 
-  * Sisselogimine
+  * ~~Sisselogimine~~
 
   * Nimekiri - kodanikest kelle kohta on antud kasutaja kaebusi esitanud
     * Võimalus sortida

@@ -21,11 +21,11 @@ function setupValidation() {
       var $email = $(form).find("input[type='email']");
       var emailValue = $email.val();
       if (emailValue == "tere@gmail.com") {
-        window.location.href = "citizen.htm";
+        window.location.href = "index-citizen.htm";
         return false;
       }
       if (emailValue == "admin@gmail.com") {
-        window.location.href = "security.htm";
+        window.location.href = "index-official.htm";
         return false;
       }
       $email.parent()
@@ -38,3 +38,14 @@ function setupValidation() {
     }
   });
 }
+
+$(document).ready(function () {
+  $.get('partial/navbar.htm', function (data) {
+    $('body').prepend(data);
+    $.get('partial/navbar-login.htm', function (data) {
+      $('#navbar-container').append(data);
+      setupValidation();
+      $("form#login").find("input[type='email']").focus();
+    });
+  });
+});
