@@ -24,11 +24,23 @@ $(document).ready(function () {
   function fillSubjects () {
     $("#subjects").find("tbody").empty();
     $.each(subjects.slice(0,10), function (i, row) {
-      $("<tr>").append($("<td>").text(row.name))
+      $("<tr>").append($("<td>").append($("<a>").addClass("subject-new-complaint").attr("href", "#").attr("title", "Lisa uus kaebus").append($("<span>").addClass("glyphicon glyphicon-file"))))
+               .append($("<td>").text(row.name))
                .append($("<td>").text(row.birthDate))
                .append($("<td>").text(row.gender))
                .append($("<td>").text(row.address))
                .appendTo($("#subjects").find("tbody"));
+    });
+    $("a.subject-new-complaint").click(function () {
+      $modal = $("#new-complaint-modal");
+      if ($modal.length < 1) {
+        $.get('partial/new-complaint.htm', function (data) {
+          $('body').append(data);
+          $("#new-complaint-modal").modal();
+        });
+      } else {
+        $modal.modal();
+      }
     });
   }
 
