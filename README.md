@@ -47,8 +47,8 @@ nende tegudest ette kanda.*
 
 Kasutamine:
 
-  * Registreerimine
-    * Kasutajanimeks võtke e-posti aadress
+  * ~~Registreerimine~~
+    * ~~Kasutajanimeks võtke e-posti aadress~~
 
   * ~~Sisselogimine~~
 

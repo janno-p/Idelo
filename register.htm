@@ -23,20 +23,41 @@
       <div class="row">
         <h1>Kasutajaks registreerimine</h1>
 
-        <form role="form" class="col-md-6">
+        <form id="register-form" role="form" class="col-md-6" action="register-success.htm">
           <div class="form-group">
             <label for="register-email">E-posti aadress</label>
-            <input type="email" name="register-email" class="form-control" id="register-email" placeholder="E-posti aadress" />
+            <input type="email"
+                   name="register-email"
+                   class="form-control"
+                   id="register-email"
+                   placeholder="E-posti aadress"
+                   data-rule-required="true"
+                   data-msg-required="E-posti aadress peab olema määratud."
+                   data-msg-email="Tegemist ei ole korrektse e-posti aadressiga." />
           </div>
           <div class="form-group">
             <label for="register-password">Salasõna</label>
-            <input type="password" name="register-password" class="form-control" id="register-password" placeholder="Salasõna" />
+            <input type="password"
+                   name="register-password"
+                   class="form-control"
+                   id="register-password"
+                   placeholder="Salasõna"
+                   data-rule-required="true"
+                   data-msg-required="Salasõna peab olema määratud."
+                   data-rule-minlength="3"
+                   data-msg-minlength="Salasõna pikkus peab olema minimaalselt 3 sümbolit, soovitatavalt vähemalt 8 sümbolit." />
           </div>
           <div class="form-group">
             <label for="register-confirm-password">Korda salasõna</label>
-            <input type="password" name="register-confirm-password" class="form-control" id="register-confirm-password" placeholder="Korda salasõna" />
+            <input type="password"
+                   name="register-confirm-password"
+                   class="form-control"
+                   id="register-confirm-password"
+                   placeholder="Korda salasõna"
+                   data-rule-equalto="#register-password"
+                   data-msg-equalto="Salasõna ei ole vastavuses algselt sisestatud väärtusega." />
           </div>
-          <button type="submit" class="btn btn-default">Registreeri</button>
+          <button type="submit" class="btn btn-primary">Registreeri</button>
         </form>
       </div>
 

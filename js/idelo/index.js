@@ -21,13 +21,14 @@ function setupValidation() {
         $(element).data("title", "")
                   .tooltip("destroy");
       });
-
+      
       $.each(errorList, function (index, error) {
         $(error.element).parent()
                         .addClass("has-error");
         $(error.element).tooltip("destroy")
                         .data("title", error.message)
-                        .tooltip({ placement: "bottom" });
+                        .tooltip({ placement: "bottom", trigger: "manual" })
+                        .tooltip("show");
       });
     },
 
@@ -42,15 +43,14 @@ function setupValidation() {
         window.location.href = "index-official.htm";
         return false;
       }
-      $email.parent()
-            .addClass("has-error");
-      $email.tooltip("destroy")
-            .data("title", "Kasutaja sisselogimine ebaõnnestus!")
-            .tooltip({ placement: "bottom" });
-      $email.focus();
+      window.location.href = "login-failure.htm";
       return false;
     }
   });
+
+  /*$('input').blur(function () {
+    $(this).valid();
+  });*/
 }
 
 $(document).ready(function () {

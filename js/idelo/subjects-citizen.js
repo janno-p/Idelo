@@ -24,9 +24,10 @@ $(document).ready(function () {
   function fillSubjects () {
     $("#subjects").find("tbody").empty();
     $.each(subjects.slice(0,10), function (i, row) {
+      var dt = new Date(Date.parse(row.birthDate));
       $("<tr>").append($("<td>").append($("<a>").addClass("subject-new-complaint").attr("href", "#").attr("title", "Lisa uus kaebus").append($("<span>").addClass("glyphicon glyphicon-file"))))
                .append($("<td>").text(row.name))
-               .append($("<td>").text(row.birthDate))
+               .append($("<td>").text(("00" + dt.getDate()).slice(-2) + "." + ("00" + (dt.getMonth() + 1)).slice(-2) + "." + dt.getFullYear()))
                .append($("<td>").text(row.gender))
                .append($("<td>").text(row.address))
                .appendTo($("#subjects").find("tbody"));
