@@ -1,3 +1,11 @@
 body {
   padding-top: 70px;
 }
+
+.vspace-5 {
+  margin-top: 5px;
+}
+
+.vspace-10 {
+  margin-top: 10px;
+}

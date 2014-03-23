@@ -1,3 +1,43 @@
+/*
+var substringMatcher = function(strs) {
+  return function findMatches(q, cb) {
+    var matches, substringRegex;
+ 
+    // an array that will be populated with substring matches
+    matches = [];
+ 
+    // regex used to determine if a string contains the substring `q`
+    substrRegex = new RegExp(q, 'i');
+ 
+    // iterate through the pool of strings and for any string that
+    // contains the substring `q`, add it to the `matches` array
+    $.each(strs, function(i, str) {
+      if (substrRegex.test(str)) {
+        // the typeahead jQuery plugin expects suggestions to a
+        // JavaScript object, refer to typeahead docs for more info
+        matches.push({ value: str });
+      }
+    });
+ 
+    cb(matches);
+  };
+};*/
+ 
+var states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
+  'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
+  'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
+  'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
+  'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
+  'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
+  'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
+  'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
+  'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
+];
+
+// -------------------
+
+var selectedFilters = [];
+
 var subjects = (function () {
   var subjects = null;
   $.ajax({
@@ -84,6 +124,43 @@ $(document).ready(function () {
     }
     fillSubjects();
   });
+
+  $("#event-type-filter").typeahead({
+    source: states,
+    updater: function (item) {
+      if ($.inArray(item, selectedFilters) >= 0) {
+        return null;
+      }
+      if (selectedFilters.length < 1) {
+        var activeFilters = $("<div>").attr("id", "active-filters")
+                                      .addClass("vspace-5")
+                                      .append($("<a>").attr("href", "#")
+                                                      .addClass("remove-all")
+                                                     .append($("<small>").append("Eemalda kõik filtrid"))
+                                                     .click(function () {
+                                                        $("#active-filters").remove();
+                                                        selectedFilters = [];
+                                                     }));
+        $("#event-filter").append(activeFilters);
+      }
+      selectedFilters.push(item);
+      $("#event-filter .remove-all").before($("<span>").addClass("label label-info")
+                                                         .attr("data-value", item)
+                                                         .append(item + " ")
+                                                         .append($("<a>").attr("href", "#")
+                                                                         .append("&times;")
+                                                                         .click(function () {
+                                                                           var value = $(this).parent().attr("data-value");
+                                                                           selectedFilters.splice($.inArray(value, selectedFilters), 1);
+                                                                           $(this).parent().remove();
+                                                                           if (selectedFilters.length < 1) {
+                                                                             $("#active-filters").remove();
+                                                                           }
+                                                                           return false;
+                                                                         })))
+                                      .before(" ");
+    }
+  }).typeahead();
 
   /*
   var $tr =$('<tr>').addClass('header');

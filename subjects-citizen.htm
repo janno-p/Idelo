@@ -22,15 +22,22 @@
     <div class="container">
       <div class="row">
         <h1>Minu kaebuste subjektid</h1>
+
+        <div id="event-filter" class="well well-sm vspace-10">
+          <div class="input-group input-group-sm col-md-4">
+            <span class="input-group-addon"><strong>Filtreerimine:</strong></span>
+            <input id="event-type-filter" name="event-type-filter" type="text" class="form-control" placeholder="Sündmuse tüüp" autocomplete="off" />
+          </div>
+        </div>
         
         <table id="subjects" class="table table-hover">
           <thead>
             <tr>
               <th>&nbsp;</th>
-              <th><a data-id="name" class="subject-sort" href="#"><span class="glyphicon glyphicon-sort"></span> Nimi</a></th>
-              <th><a data-id="birthDate" class="subject-sort" href="#"><span class="glyphicon glyphicon-sort"></span> Sünniaeg</a></th>
-              <th><a data-id="gender" class="subject-sort" href="#"><span class="glyphicon glyphicon-sort"></span> Sugu</a></th>
-              <th><a data-id="address" class="subject-sort" href="#"><span class="glyphicon glyphicon-sort"></span> Elukoht</a></th>
+              <th><a data-id="name" class="subject-sort" href="#">Nimi <span class="glyphicon glyphicon-sort"></span></a></th>
+              <th><a data-id="birthDate" class="subject-sort" href="#">Sünniaeg <span class="glyphicon glyphicon-sort"></span></a></th>
+              <th><a data-id="gender" class="subject-sort" href="#">Sugu <span class="glyphicon glyphicon-sort"></span></a></th>
+              <th><a data-id="address" class="subject-sort" href="#">Elukoht <span class="glyphicon glyphicon-sort"></span></a></th>
             </tr>
           </thead>
           <tbody>
@@ -64,6 +71,7 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
     <script src="js/docs.min.js"></script>
+    <script src="js/bootstrap3-typeahead.min.js"></script>
 
     <script src="js/idelo/subjects-citizen.js"></script>
   </body>
