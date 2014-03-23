@@ -1,56 +1,27 @@
-/*
-var substringMatcher = function(strs) {
-  return function findMatches(q, cb) {
-    var matches, substringRegex;
- 
-    // an array that will be populated with substring matches
-    matches = [];
- 
-    // regex used to determine if a string contains the substring `q`
-    substrRegex = new RegExp(q, 'i');
- 
-    // iterate through the pool of strings and for any string that
-    // contains the substring `q`, add it to the `matches` array
-    $.each(strs, function(i, str) {
-      if (substrRegex.test(str)) {
-        // the typeahead jQuery plugin expects suggestions to a
-        // JavaScript object, refer to typeahead docs for more info
-        matches.push({ value: str });
+function loadData (url) {
+  var data = (function () {
+    var data = null;
+    $.ajax({
+      'async': false,
+      'global': false,
+      'url': url,
+      'dataType': 'json',
+      'success': function (d) {
+        data = d;
       }
     });
- 
-    cb(matches);
-  };
-};*/
- 
-var states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
-  'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
-  'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
-  'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
-  'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-  'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-  'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
-  'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-  'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
-];
+    return data;
+  })();
+  return data;
+}
 
-// -------------------
+var currentPage = 1;
 
+var filters = loadData("data/actions.json");
 var selectedFilters = [];
 
-var subjects = (function () {
-  var subjects = null;
-  $.ajax({
-    'async': false,
-    'global': false,
-    'url': 'data/citizens.json',
-    'dataType': 'json',
-    'success': function (data) {
-      subjects = data;
-    }
-  });
-  return subjects;
-})();
+var subjects = loadData("data/citizens.json");
+var selectedSubjects = [];
 
 $(document).ready(function () {
   $.get('partial/navbar.htm', function (data) {
@@ -61,12 +32,80 @@ $(document).ready(function () {
     });
   });
 
+  function updateSelectedSubjects () {
+    selectedSubjects = []
+    if (selectedFilters.length > 0) {
+      $.each(subjects, function (index, subject) {
+        var addSubject = true;
+        $.each(selectedFilters, function (index, filter) {
+          if ($.inArray(filter, subject.tags) < 0) {
+            addSubject = false;
+          }
+        });
+        if (addSubject) {
+          selectedSubjects.push(subject);
+        }
+      });
+    }
+    if (selectedSubjects.length < 1) {
+      selectedSubjects = subjects.slice(0);
+    }
+    if (selectedSubjects.length == 0) {
+      currentPage = 1;
+    } else {
+      currentPage = Math.min(currentPage, Math.floor((selectedSubjects.length - 1) / 10) + 1);
+    }
+  }
+
+  function updatePagination() {
+    $("ul.pagination li").remove();
+    var firstPage = $("<li>");
+    if (currentPage == 1) {
+      firstPage.addClass("disabled").append($("<span>").append("&laquo;"));
+    } else {
+      firstPage.append($("<a>").attr("href", "#").append("&laquo;").click(function () {
+        currentPage = 1;
+        fillSubjects();
+      }));
+    }
+    var numPages = 1;
+    if (selectedSubjects.length > 0) {
+      numPages = Math.floor((selectedSubjects.length - 1) / 10) + 1;
+    }
+    var lastPage = $("<li>");
+    if (currentPage == numPages) {
+      lastPage.addClass("disabled").append($("<span>").append("&raquo;"));
+    } else {
+      lastPage.append($("<a>").attr("href", "#").append("&raquo;").click(function () {
+        currentPage = numPages;
+        fillSubjects();
+      }));
+    }
+    $("ul.pagination").append(firstPage);
+    for (var i = 1; i <= numPages; i++) {
+      var page = $("<li>");
+      if (i == currentPage) {
+        page.addClass("active");
+        page.append($("<span>").append("" + i + " ").append($("<span>").addClass("sr-only").append("(current)")));
+      } else {
+        page.append($("<a>").attr("href", "#").attr("data-page", "" + i).append("" + i).click(function () {
+          currentPage = parseInt($(this).attr("data-page"));
+          fillSubjects();
+        }));
+      }
+      $("ul.pagination").append(page);
+    }
+    $("ul.pagination").append(lastPage);
+  }
+
   function fillSubjects () {
+    updateSelectedSubjects();
+    updatePagination();
+    var startIndex = ((currentPage - 1) * 10);
     $("#subjects").find("tbody").empty();
-    $.each(subjects.slice(0,10), function (i, row) {
+    $.each(selectedSubjects.slice(startIndex, startIndex + 10), function (i, row) {
       var dt = new Date(Date.parse(row.birthDate));
-      $("<tr>").append($("<td>").append($("<a>").addClass("subject-new-complaint").attr("href", "#").attr("title", "Lisa uus kaebus").append($("<span>").addClass("glyphicon glyphicon-file"))))
-               .append($("<td>").text(row.name))
+      $("<tr>").append($("<td>").text(row.name))
                .append($("<td>").text(("00" + dt.getDate()).slice(-2) + "." + ("00" + (dt.getMonth() + 1)).slice(-2) + "." + dt.getFullYear()))
                .append($("<td>").text(row.gender))
                .append($("<td>").text(row.address))
@@ -126,7 +165,7 @@ $(document).ready(function () {
   });
 
   $("#event-type-filter").typeahead({
-    source: states,
+    source: filters,
     updater: function (item) {
       if ($.inArray(item, selectedFilters) >= 0) {
         return null;
@@ -140,6 +179,7 @@ $(document).ready(function () {
                                                      .click(function () {
                                                         $("#active-filters").remove();
                                                         selectedFilters = [];
+                                                        fillSubjects();
                                                      }));
         $("#event-filter").append(activeFilters);
       }
@@ -156,22 +196,11 @@ $(document).ready(function () {
                                                                            if (selectedFilters.length < 1) {
                                                                              $("#active-filters").remove();
                                                                            }
+                                                                           fillSubjects();
                                                                            return false;
                                                                          })))
                                       .before(" ");
+      fillSubjects();
     }
   }).typeahead();
-
-  /*
-  var $tr =$('<tr>').addClass('header');
-        $.each(data.headers, function(i,header){
-            $tr.append($('<th>').append($('a').addClass('sort').attr('href','#').append($('span').text(header))));
-        });
-        $tr.appendTo('table.data');
-        $.each(data.rows,function(i,row){
-            $('<tr>').attr('id',i).
-                append($('<td>').text(row.date)).
-                append($('<td>').text(row.company)).
-                append($('<td>').text(row.location)).appendTo('table.data');
-        });*/
 });
