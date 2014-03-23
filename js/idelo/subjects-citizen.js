@@ -29,6 +29,7 @@ $(document).ready(function () {
     $("a.navbar-brand").attr("href", "index-citizen.htm");
     $.get('partial/navbar-citizen.htm', function (data) {
       $('#navbar-container').append(data);
+      $("#navbar-container li > a[href='subjects-citizen.htm']").parent().addClass("active");
     });
   });
 
@@ -105,18 +106,19 @@ $(document).ready(function () {
     $("#subjects").find("tbody").empty();
     $.each(selectedSubjects.slice(startIndex, startIndex + 10), function (i, row) {
       var dt = new Date(Date.parse(row.birthDate));
-      $("<tr>").append($("<td>").text(row.name))
+      $("<tr>").append($("<td>").append($("<img>").addClass("img-rounded").attr("data-src", "holder.js/100x100").attr("alt", "Pilt")))
+               .append($("<td>").append($("<a>").attr("href", "#").attr("data-index", "" + i).append(row.name)))
                .append($("<td>").text(("00" + dt.getDate()).slice(-2) + "." + ("00" + (dt.getMonth() + 1)).slice(-2) + "." + dt.getFullYear()))
                .append($("<td>").text(row.gender))
                .append($("<td>").text(row.address))
                .appendTo($("#subjects").find("tbody"));
     });
-    $("a.subject-new-complaint").click(function () {
-      $modal = $("#new-complaint-modal");
+    $("#subjects td a").click(function () {
+      $modal = $("#citizen-form-modal");
       if ($modal.length < 1) {
-        $.get('partial/new-complaint.htm', function (data) {
+        $.get('partial/citizen-form.htm', function (data) {
           $('body').append(data);
-          $("#new-complaint-modal").modal();
+          $("#citizen-form-modal").modal();
         });
       } else {
         $modal.modal();
