@@ -52,9 +52,9 @@ Kasutamine:
 
   * ~~Sisselogimine~~
 
-  * Nimekiri - kodanikest kelle kohta on antud kasutaja kaebusi esitanud
-    * Võimalus sortida
-    * Võimalus vaadelda nimekirja sündmuste tüüpide kaupa
+  * ~~Nimekiri - kodanikest kelle kohta on antud kasutaja kaebusi esitanud~~
+    * ~~Võimalus sortida~~
+    * ~~Võimalus vaadelda nimekirja sündmuste tüüpide kaupa~~
 
   * Konkreetse kodaniku vaade - kuvatakse ainult sisseloginud kasutaja kaebused
 
