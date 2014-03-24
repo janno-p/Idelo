@@ -108,6 +108,15 @@ $(document).ready(function () {
                   </ul>
                 </div>*/
 
+  function fillModal (subject) {
+    var dt = new Date(Date.parse(subject.birthDate));
+    $("#citizen-name").val(subject.name);
+    $("#citizen-gender-male").prop("checked", subject.gender == "Mees");
+    $("#citizen-gender-female").prop("checked", subject.gender == "Naine");
+    $("#citizen-birth").val(("00" + dt.getDate()).slice(-2) + "." + ("00" + (dt.getMonth() + 1)).slice(-2) + "." + dt.getFullYear());
+    $("#citizen-address").val(subject.address);
+  }
+
   function fillSubjects () {
     updateSelectedSubjects();
     updatePagination();
@@ -124,7 +133,7 @@ $(document).ready(function () {
                                             .append(row.name + " ")
                                             .append($("<strong>").addClass("caret")))
                             .append($("<ul>").addClass("dropdown-menu")
-                                             .append($("<li>").append($("<a>").attr("href", "#").addClass("modify-citizen").append("Muuda andmeid")))
+                                             .append($("<li>").append($("<a>").attr("href", "#").attr("data-index", (startIndex + i)).addClass("modify-citizen").append("Muuda andmeid")))
                                              .append($("<li>").append($("<a>").attr("href", "#").append("Tee uus kaebus")))
                                              )
                     //)
@@ -137,13 +146,24 @@ $(document).ready(function () {
       Holder.run();
     });
     $("#subjects td a.modify-citizen").click(function () {
+      var myIndex = parseInt($(this).attr("data-index"));
       $modal = $("#citizen-form-modal");
       if ($modal.length < 1) {
         $.get('partial/citizen-form.htm', function (data) {
           $('body').append(data);
+          $("#select-date").datepicker({
+            language: "et",
+            startView: 2,
+            autoclose: true,
+            endDate: new Date()
+          }).on("changeDate", function (e) {
+            $("#citizen-birth").val(e.format());
+          });
+          fillModal(selectedSubjects[myIndex]);
           $("#citizen-form-modal").modal();
         });
       } else {
+        fillModal(selectedSubjects[myIndex]);
         $modal.modal();
       }
     });

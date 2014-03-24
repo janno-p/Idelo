@@ -56,7 +56,7 @@ Kasutamine:
     * ~~Võimalus sortida~~
     * ~~Võimalus vaadelda nimekirja sündmuste tüüpide kaupa~~
 
-  * Konkreetse kodaniku vaade - kuvatakse ainult sisseloginud kasutaja kaebused
+  * ~~Konkreetse kodaniku vaade - kuvatakse ainult sisseloginud kasutaja kaebused~~
 
   * Julgeolekutöötaja vaade - kuvatakse kõik kodaniku kohta saadaolev info
     * Sündmuste tüüpide lisamine

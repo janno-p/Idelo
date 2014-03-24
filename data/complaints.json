@@ -1,0 +1,4 @@
+[
+  { "id": 1, "citizenId": 1, "title": "Episoodi pealkiri", "date": "2014-02-21T17:10:00.000Z", "tags": ["salatsemine", "suitsetamine", "passiivsus"], "location": "", "description": "bla bla", "photos": [] },
+  { "id": 2, "citizenId": 18, "title": "Kahtlane hiilimine", "date": "2014-02-26T08:38:00.000Z", "tags": ["salatsemine", "agressiivsus", "vaidlemine", "pileti mitte-valideerimine"], "location": "", "description": "Naaber on juba teist päeva väga vara hommikul välja hiilinud. Kahtlustan valskust.", "photos": [] }
+]
