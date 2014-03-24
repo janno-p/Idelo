@@ -99,6 +99,15 @@ $(document).ready(function () {
     $("ul.pagination").append(lastPage);
   }
 
+  /*<div class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Test <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="#">Profiil</a></li>
+                    <li class="divider"></li>
+                    <li><a href="index.htm">Logi välja</a></li>
+                  </ul>
+                </div>*/
+
   function fillSubjects () {
     updateSelectedSubjects();
     updatePagination();
@@ -107,13 +116,27 @@ $(document).ready(function () {
     $.each(selectedSubjects.slice(startIndex, startIndex + 10), function (i, row) {
       var dt = new Date(Date.parse(row.birthDate));
       $("<tr>").append($("<td>").append($("<img>").addClass("img-rounded").attr("data-src", "holder.js/100x100").attr("alt", "Pilt")))
-               .append($("<td>").append($("<a>").attr("href", "#").attr("data-index", "" + i).append(row.name)))
+               .append($("<td>").append(
+                  $("<div>").addClass("dropdown")
+                            .append($("<a>").attr("href", "#")
+                                            .addClass("dropdown-toggle")
+                                            .attr("data-toggle", "dropdown")
+                                            .append(row.name + " ")
+                                            .append($("<strong>").addClass("caret")))
+                            .append($("<ul>").addClass("dropdown-menu")
+                                             .append($("<li>").append($("<a>").attr("href", "#").addClass("modify-citizen").append("Muuda andmeid")))
+                                             .append($("<li>").append($("<a>").attr("href", "#").append("Tee uus kaebus")))
+                                             )
+                    //)
+                  //$("<a>").attr("href", "#").attr("data-index", "" + i).append(row.name)
+                ))
                .append($("<td>").text(("00" + dt.getDate()).slice(-2) + "." + ("00" + (dt.getMonth() + 1)).slice(-2) + "." + dt.getFullYear()))
                .append($("<td>").text(row.gender))
                .append($("<td>").text(row.address))
                .appendTo($("#subjects").find("tbody"));
+      Holder.run();
     });
-    $("#subjects td a").click(function () {
+    $("#subjects td a.modify-citizen").click(function () {
       $modal = $("#citizen-form-modal");
       if ($modal.length < 1) {
         $.get('partial/citizen-form.htm', function (data) {
