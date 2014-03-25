@@ -23,13 +23,87 @@ var selectedFilters = [];
 var subjects = loadData("data/citizens.json");
 var selectedSubjects = [];
 
+function wireSearchFunc () {
+  $("#search-form").find("button").click(function () {
+    var searchText = $("#search-form").find("input").val();
+    if (searchText.length < 1) {
+      return false;
+    } else { //if (searchText == "ei leia") {
+      window.location.href = "search-failure.htm";
+    //} else if (searchText.contains("")) {
+    //  window.location.href = "complex-search-results.htm";
+    }/* else {
+      window.location.href = "simple-search-results.htm";
+    }*/
+    return false;
+  });
+}
+
+function setupValidation() {
+  $("form#citizen-form").validate({
+    rules: {
+      "citizen-birth": {
+        dateCheck: true
+      }
+    },
+
+    showErrors: function (errorMap, errorList) {
+      $.each(this.validElements(), function (index, element) {
+        $(element).parent()
+                  .removeClass("has-error");
+        $(element).data("title", "")
+                  .tooltip("destroy");
+      });
+
+      $.each(errorList, function (index, error) {
+        $(error.element).parent()
+                        .addClass("has-error");
+        $(error.element).tooltip("destroy")
+                        .data("title", error.message)
+                        .tooltip({ placement: "right", container: "#citizen-form-modal" })
+                        .tooltip("show");
+      });
+    },
+
+    submitHandler: function (form) {
+      //window.location.href = "register-success.htm";
+      return false;
+    }
+  });
+
+  $('form#citizen-form input').blur(function () {
+    $(this).valid();
+  });
+}
+
 $(document).ready(function () {
+  $.validator.addMethod("dateCheck", function (value, element) {
+    var str = $("#citizen-birth").val();
+    if (str.length > 10) {
+      return false;
+    }
+    var day = str.substring(0, 2);
+    var month = str.substring(3, 5) - 1;
+    var year = str.substring(6, 10);
+    var s = (new Date(year, month, day)).getTime();
+    var o = new Date();
+    o.setTime(s);
+    if (s > new Date().getTime()) {
+      return false;
+    }
+    if (o.getFullYear() != year || o.getMonth() != month || o.getDate() != day) {
+      return false;
+    }
+    return true;
+  }, "Sünnikuupäev ei ole antud sobival kujul.");
+
   $.get('partial/navbar.htm', function (data) {
     $('body').prepend(data);
     $("a.navbar-brand").attr("href", "index-citizen.htm");
     $.get('partial/navbar-citizen.htm', function (data) {
       $('#navbar-container').append(data);
       $("#navbar-container li > a[href='subjects-citizen.htm']").parent().addClass("active");
+      wireSearchFunc();
     });
   });
 
@@ -99,15 +173,6 @@ $(document).ready(function () {
     $("ul.pagination").append(lastPage);
   }
 
-  /*<div class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Test <b class="caret"></b></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="#">Profiil</a></li>
-                    <li class="divider"></li>
-                    <li><a href="index.htm">Logi välja</a></li>
-                  </ul>
-                </div>*/
-
   function fillModal (subject) {
     var dt = new Date(Date.parse(subject.birthDate));
     $("#citizen-name").val(subject.name);
@@ -134,11 +199,7 @@ $(document).ready(function () {
                                             .append($("<strong>").addClass("caret")))
                             .append($("<ul>").addClass("dropdown-menu")
                                              .append($("<li>").append($("<a>").attr("href", "#").attr("data-index", (startIndex + i)).addClass("modify-citizen").append("Muuda andmeid")))
-                                             .append($("<li>").append($("<a>").attr("href", "#").append("Tee uus kaebus")))
-                                             )
-                    //)
-                  //$("<a>").attr("href", "#").attr("data-index", "" + i).append(row.name)
-                ))
+                                             .append($("<li>").append($("<a>").attr("href", "#").append("Tee kodaniku kohta uus kaebus"))))))
                .append($("<td>").text(("00" + dt.getDate()).slice(-2) + "." + ("00" + (dt.getMonth() + 1)).slice(-2) + "." + dt.getFullYear()))
                .append($("<td>").text(row.gender))
                .append($("<td>").text(row.address))
@@ -158,8 +219,10 @@ $(document).ready(function () {
             endDate: new Date()
           }).on("changeDate", function (e) {
             $("#citizen-birth").val(e.format());
+            $("form#citizen-form").valid();
           });
           fillModal(selectedSubjects[myIndex]);
+          setupValidation();
           $("#citizen-form-modal").modal();
         });
       } else {

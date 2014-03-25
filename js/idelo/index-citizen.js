@@ -21,13 +21,15 @@ var complaints = loadData("data/complaints.json");
 function wireSearchFunc () {
   $("#search-form").find("button").click(function () {
     var searchText = $("#search-form").find("input").val();
-    if (searchText == "ei leia") {
+    if (searchText.length < 1) {
+      return false;
+    } else { //if (searchText == "ei leia") {
       window.location.href = "search-failure.htm";
     //} else if (searchText.contains("")) {
     //  window.location.href = "complex-search-results.htm";
-    } else {
+    } /*else {
       window.location.href = "simple-search-results.htm";
-    }
+    }*/
     return false;
   });
 }
