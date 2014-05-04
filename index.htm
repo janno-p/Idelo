@@ -54,9 +54,17 @@
 
       function getConfiguration() {
         switch (getParameter('page')) {
-          case 'register': return { template: 'register', scripts: [ 'login', 'register' ] };
-          case 'register-success': return { template: 'register-success', scripts: [ 'login', 'index' ] };
-          default: return { template: 'index', scripts: [ 'login', 'index' ] };
+          case 'login-failure': return { template: 'login-failure', scripts: ['login', 'index'] };
+          case 'register': return { template: 'register', scripts: ['login', 'register'] };
+          case 'register-success': return { template: 'register-success', scripts: ['login', 'index'] };
+          default:
+            if ($.cookie('username')) {
+              if ($.cookie('role') == 'official')
+                return { template: 'index-official', scripts: ['index-official'] };
+              else
+                return { template: 'index-citizen', scripts: ['index-citizen'] };
+            }
+            return { template: 'index', scripts: ['login', 'index'] };
         }
       }
 
@@ -69,7 +77,9 @@
         }
 
         var conf = getConfiguration();
-        templateName = 'partial/' + conf.template + '.htm';
+        if (conf.template) {
+          templateName = 'partial/' + conf.template + '.htm';
+        }
         var fun = [];
         for (var i = conf.scripts.length - 1; i >= 0; i--) {
           fun[i] = createFunc(conf.scripts[i], fun[i + 1]);

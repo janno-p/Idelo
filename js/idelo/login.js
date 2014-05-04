@@ -20,16 +20,27 @@ function setupLoginValidation() {
 
     submitHandler: function (form) {
       var $email = $(form).find("input[type='email']");
+      var $password = $(form).find("input[type='password']");
       var emailValue = $email.val();
-      if (emailValue == users[0].email) {
-        window.location.href = "index-citizen.htm";
-        return false;
-      }
-      if (emailValue == users[1].email) {
-        window.location.href = "index-official.htm";
-        return false;
-      }
-      window.location.href = "login-failure.htm";
+      var password = $password.val();
+      var location = '';
+      $.ajax({
+        url: 'Otsi?table=t0&f0=' + encodeURI(emailValue) + '&f1=' + encodeURI(password),
+        success: function (data) {
+          var result = eval("x=" + data);
+          if (!result || result.length < 1) {
+            $.removeCookie('username');
+            $.removeCookie('role');
+            location = '?page=login-failure';
+          } else {
+            $.cookie('username', result[0].f0);
+            $.cookie('role', result[0].f2);
+            location = '?page=index';
+          }
+        },
+        async: false
+      });
+      window.location.href = location;
       return false;
     }
   });
