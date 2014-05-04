@@ -19,38 +19,7 @@
     <![endif]-->
   </head>
   <body>
-    <div class="container">
-      <div class="row">
-        <div class="jumbotron">
-          <h1>Teretulemast!</h1>
-          <p>iDELO on virtuaaltoimiku programm, mille abil on võimalik igal Molvaania kodanikul üles
-          näidata patriotismi kodumaa vastu.</p>
-          <p>Oma kaaskodanike ebapatriootlike sammude kirja panemiseks logi sisse.</p>
-          <p>Kui sa ei ole varem iDELO virtuaaltoimikut kasutanud, siis pead esmalt registreeruma uueks kasutajaks.</p>
-          <p><a href="register.htm" class="btn btn-primary btn-lg" role="button">Registreeru kasutajaks &raquo;</a></p>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-4">
-          <img class="img-circle" data-src="holder.js/140x140" alt="Generic placeholder image" />
-          <h2>Autasustamine</h2>
-          <p>iDELO virtuaalne preemiate süsteem avaldab kasutajatele tunnustust Molvaania muutmisel paremaks paigaks.</p>
-        </div>
-
-        <div class="col-md-4">
-          <img class="img-circle" data-src="holder.js/140x140" alt="Generic placeholder image" />
-          <h2>Tagasiside</h2>
-          <p>iDELO pakub kasutajale infot selle kohta, mis tema kaebustest on edasi saanud. Praktiliselt reaalajas on võimalik näha, kui avalduse subjekt arreteeritakse ning milline karistus talle edasise uurimise tulemusena määratakse.</p>
-        </div>
-
-        <div class="col-md-4">
-          <img class="img-circle" data-src="holder.js/140x140" alt="Generic placeholder image" />
-          <h2>Statistika</h2>
-          <p>iDELO kasutajal on hea ülevaade enda poolt tehtud kaebuste kohta. Enam ei ole vaja pidada personaalset märkmikku.</p>
-        </div>
-      </div>
-
+    <div id="container" class="container">
       <hr />
 
       <footer>
@@ -60,12 +29,54 @@
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/jquery.cookie.js"></script>
     <script src="js/jquery.validate.min.js"></script>
 
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
     <script src="js/docs.min.js"></script>
 
-    <script src="js/idelo/index.js"></script>
+    <script type="text/javascript">
+
+      var templateName = null;
+
+      function getParameter(name) {
+        var query = window.location.search.substring(1);
+        var variables = query.split('&');
+        for (var i = 0; i < variables.length; i++) {
+          var variableName = variables[i].split('=');
+          if (variableName[0] == name) {
+            return variableName[1];
+          }
+        }
+        return null;
+      }
+
+      function getConfiguration() {
+        switch (getParameter('page')) {
+          case 'register': return { template: 'register', scripts: [ 'login', 'register' ] };
+          case 'register-success': return { template: 'register-success', scripts: [ 'login', 'index' ] };
+          default: return { template: 'index', scripts: [ 'login', 'index' ] };
+        }
+      }
+
+      $(document).ready(function() {
+        function createFunc(name, fun) {
+          return function() {
+            console.log(name);
+            $.getScript('js/idelo/' + name + '.js', fun)
+          };
+        }
+
+        var conf = getConfiguration();
+        templateName = 'partial/' + conf.template + '.htm';
+        var fun = [];
+        for (var i = conf.scripts.length - 1; i >= 0; i--) {
+          fun[i] = createFunc(conf.scripts[i], fun[i + 1]);
+        }
+        fun[0]();
+      });
+
+    </script>
   </body>
 </html>
