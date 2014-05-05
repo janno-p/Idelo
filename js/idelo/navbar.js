@@ -26,10 +26,12 @@ function setupLogin() {
                     if (!result || result.length < 1) {
                         $.removeCookie('username');
                         $.removeCookie('role');
+                        $.removeCookie('name');
                         location = '?page=login-failure';
                     } else {
                         $.cookie('username', result[0].f0);
                         $.cookie('role', result[0].f2);
+                        $.cookie('name', result[0].f3);
                         location = '?page=index';
                     }
                 },
@@ -44,6 +46,12 @@ function setupLogin() {
     $("form#login").find("input[type='email']").focus();
 }
 
+function clearSession() {
+    $.removeCookie('username');
+    $.removeCookie('name');
+    $.removeCookie('role');
+}
+
 function initNavbar(initCallback) {
     $.get('partial/navbar.htm', function(data) {
         $('body').prepend(data);
@@ -53,6 +61,15 @@ function initNavbar(initCallback) {
             switch (role) {
                 case 'official':
                 case 'citizen':
+                    var $username = $('#button-username');
+                    var $children = $username.children();
+                    $username.text('');
+                    $username.append($children);
+                    $username.find('span').after(' ' + ($.cookie('name') || $.cookie('username').substring(0, $.cookie('username').indexOf('@'))) + ' ');
+
+                    $('#button-logout').click(function() {
+                        clearSession();
+                    });
                     break;
                 default:
                     setupLogin();
