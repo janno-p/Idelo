@@ -27,7 +27,7 @@ function setupLogin() {
                         $.removeCookie('username');
                         $.removeCookie('role');
                         $.removeCookie('name');
-                        location = '?page=login-failure';
+                        location = '?page=login_failure';
                     } else {
                         $.cookie('username', result[0].f0);
                         $.cookie('role', result[0].f2);
@@ -53,10 +53,10 @@ function clearSession() {
 }
 
 function initNavbar(initCallback) {
-    $.get('partial/navbar.htm', function(data) {
+    $.get('app/views/navbar.htm', function(data) {
         $('body').prepend(data);
         var role = $.cookie('username') ? ($.cookie('role') == 'official' ? 'official' : 'citizen') : 'anonymous';
-        $.get('partial/navbar-' + role + '.htm', function(content) {
+        $.get('app/views/' + role + '/navbar.htm', function(content) {
             $('#navbar-container').append(content);
             switch (role) {
                 case 'official':

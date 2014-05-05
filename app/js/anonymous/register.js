@@ -37,7 +37,7 @@ function setupRegistration() {
                 async: false
             });
 
-            window.location.href = "?page=register-success&email=" + encodeURI(username);
+            window.location.href = "?page=register_success&email=" + encodeURI(username);
             return false;
         }
     });

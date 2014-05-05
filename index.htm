@@ -8,8 +8,9 @@
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/font-awesome.min.css" rel="stylesheet" />
 
-    <link href="css/idelo.css" rel="stylesheet" />
+    <link href="app/css/idelo.css" rel="stylesheet" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -36,63 +37,16 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/docs.min.js"></script>
 
+    <script src="app/js/bootstrapper.js"></script>
+
     <script type="text/javascript">
 
       var templateName = null;
 
-      function getParameter(name) {
-        var query = window.location.search.substring(1);
-        var variables = query.split('&');
-        for (var i = 0; i < variables.length; i++) {
-          var variableName = variables[i].split('=');
-          if (variableName[0] == name) {
-            return variableName[1];
-          }
-        }
-        return null;
-      }
-
-      function getConfiguration() {
-        var role = $.cookie("username") ? ($.cookie("role") == "official" ? "official" : "citizen") : "anonymous";
-        switch (role) {
-          case 'official':
-            switch (getParameter('page')) {
-              default: return { template: 'index-official', scripts: ['navbar', 'index-official'] };
-            }
-            break;
-          case 'citizen':
-            switch (getParameter('page')) {
-              default: return { template: 'index-citizen', scripts: ['navbar', 'index-citizen'] };
-            }
-            break;
-          default:
-            switch (getParameter('page')) {
-              case 'login-failure': return { template: 'login-failure', scripts: ['navbar', 'index'] };
-              case 'register': return { template: 'register', scripts: ['navbar', 'register'] };
-              case 'register-success': return { template: 'register-success', scripts: ['navbar', 'index'] };
-              default: return { template: 'index', scripts: ['navbar', 'index'] };
-            }
-            break;
-        }
-      }
-
       $(document).ready(function() {
-        function createFunc(name, fun) {
-          return function() {
-            console.log(name);
-            $.getScript('js/idelo/' + name + '.js', fun)
-          };
-        }
-
-        var conf = getConfiguration();
-        if (conf.template) {
-          templateName = 'partial/' + conf.template + '.htm';
-        }
-        var fun = [];
-        for (var i = conf.scripts.length - 1; i >= 0; i--) {
-          fun[i] = createFunc(conf.scripts[i], fun[i + 1]);
-        }
-        fun[0]();
+        var action = getAction();
+        templateName = action.template;
+        action.execute();
       });
 
     </script>
