@@ -27,6 +27,8 @@ function registerRoutes() {
                 route('index', ['::navbar', 'index'])
         },
         citizen: {
+            new_complaint:
+                route('new_complaint', ['::navbar', 'new_complaint']),
             default:
                 route('index', ['::navbar', 'index'])
         },

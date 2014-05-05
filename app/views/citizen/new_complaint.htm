@@ -1,0 +1,108 @@
+<div class="row">
+    <h1>Uue kaebuse lisamine</h1>
+
+    <form id="new-complaint-form" class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="complaint-title" class="col-sm-2 control-label">Pealkiri:</label>
+            <div class="col-sm-5">
+                <input type="text"
+                       class="form-control"
+                       id="complaint-title"
+                       name="complaint-title"
+                       placeholder="Episoodi pealkiri"
+                       data-rule-required="true"
+                       data-msg-required="Episoodi pealkiri peab olema määratud"
+                       data-rule-maxlength="100"
+                       data-msg-maxlength="Episoodi pealkiri võiks olla lühike ja lööv (mitte üle 100 tähemärgi)" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="complaint-subject" class="col-sm-2 control-label">Subjekt:</label>
+            <div class="col-sm-5">
+                <div class="input-group">
+                    <input type="text"
+                           class="form-control"
+                           id="complaint-subject"
+                           name="complaint-subject"
+                           placeholder="Kaebealune isik"
+                           data-rule-required="true"
+                           data-msg-required="Kaebealune isik peab olema määratud" />
+                    <input type="hidden" id="complaint-subject-id" name="complaint-subject-id" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button"><i class="fa fa-fw fa-search"></i></button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="complaint-time" class="col-sm-2 control-label">Toimumise aeg:</label>
+            <div class="col-sm-5">
+                <div class="input-group">
+                    <input type="text"
+                           class="form-control"
+                           id="complaint-time"
+                           name="complaint-time"
+                           placeholder="Sündmuse toimumise aeg"
+                           data-rule-required="true"
+                           data-msg-required="Sündmuse toimumise aeg peab olema määratud" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button"><i class="fa fa-fw fa-clock-o"></i></button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="complaint-location" class="col-sm-2 control-label">Asukoht:</label>
+            <div class="col-sm-5">
+                <div class="input-group">
+                    <input type="text"
+                           class="form-control"
+                           id="complaint-location"
+                           name="complaint-location"
+                           placeholder="Sündmuse toimumise koht kaardil"
+                           data-rule-required="true"
+                           data-msg-required="Sündmuse toimumise asukoht peab olema määratud" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button"><i class="fa fa-fw fa-map-marker"></i></button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="complaint-types" class="col-sm-2 control-label">Märksõnad:</label>
+            <div class="col-sm-5">
+                <input type="text"
+                       class="form-control"
+                       id="complaint-types"
+                       name="complaint-types"
+                       placeholder="Komadega eraldatud märksõnad"
+                       data-rule-required="true"
+                       data-msg-required="Sündmusele võiks lisada mõned märksõnad" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="complaint-description" class="col-sm-2 control-label">Kirjeldus:</label>
+            <div class="col-sm-5">
+                <textarea rows="8"
+                          class="form-control"
+                          id="complaint-description"
+                          name="complaint-description"
+                          placeholder="Olukorra detailne kirjeldus"
+                          data-rule-required="true"
+                          data-msg-required="Sündmuse kirjeldus peab olema määratud"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Fotod:</label>
+            <div class="col-sm-5">
+                <button id="complaint-add-photo" class="btn btn-default"><i class="fa fa-camera"></i> Lisa link fotole</button>
+                <p id="complaint-add-photo-help" class="help-block">Võid veel lisada kuni 5 pilti.</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-5">
+                <button type="submit" class="btn btn-primary">Salvesta</button>
+            </div>
+        </div>
+    </form>
+</div>
