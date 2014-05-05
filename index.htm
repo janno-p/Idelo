@@ -53,18 +53,26 @@
       }
 
       function getConfiguration() {
-        switch (getParameter('page')) {
-          case 'login-failure': return { template: 'login-failure', scripts: ['login', 'index'] };
-          case 'register': return { template: 'register', scripts: ['login', 'register'] };
-          case 'register-success': return { template: 'register-success', scripts: ['login', 'index'] };
-          default:
-            if ($.cookie('username')) {
-              if ($.cookie('role') == 'official')
-                return { template: 'index-official', scripts: ['index-official'] };
-              else
-                return { template: 'index-citizen', scripts: ['index-citizen'] };
+        var role = $.cookie("username") ? ($.cookie("role") == "official" ? "official" : "citizen") : "anonymous";
+        switch (role) {
+          case 'official':
+            switch (getParameter('page')) {
+              default: return { template: 'index-official', scripts: ['navbar', 'index-official'] };
             }
-            return { template: 'index', scripts: ['login', 'index'] };
+            break;
+          case 'citizen':
+            switch (getParameter('page')) {
+              default: return { template: 'index-citizen', scripts: ['navbar', 'index-citizen'] };
+            }
+            break;
+          default:
+            switch (getParameter('page')) {
+              case 'login-failure': return { template: 'login-failure', scripts: ['navbar', 'index'] };
+              case 'register': return { template: 'register', scripts: ['navbar', 'register'] };
+              case 'register-success': return { template: 'register-success', scripts: ['navbar', 'index'] };
+              default: return { template: 'index', scripts: ['navbar', 'index'] };
+            }
+            break;
         }
       }
 
