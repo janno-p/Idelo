@@ -100,7 +100,7 @@ function fillMap() {
     });
     $modal.find('.btn-primary').click(function() {
         $modal.modal('hide');
-        $('#complaint-location').val('' + $modal.attr('data-lat') + ';' + $modal.attr('data-lng'))
+        $('#complaint-location').val('(' + $modal.attr('data-lat') + '; ' + $modal.attr('data-lng') + ')')
                                 .valid();
     });
     $modal.modal();
