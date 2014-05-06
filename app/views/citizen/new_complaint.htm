@@ -24,32 +24,44 @@
                            class="form-control"
                            id="complaint-subject"
                            name="complaint-subject"
+                           readonly="readonly"
                            placeholder="Kaebealune isik"
                            data-rule-required="true"
                            data-msg-required="Kaebealune isik peab olema määratud" />
                     <input type="hidden" id="complaint-subject-id" name="complaint-subject-id" />
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button"><i class="fa fa-fw fa-search"></i></button>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-search"></span>
                     </span>
                 </div>
             </div>
         </div>
+        <!--
+        <div class="form-group">
+            <label for="dtp_input3" class="col-md-2 control-label">Time Picking</label>
+            <div class="input-group date form_time col-md-5" data-date="" data-date-format="hh:ii" data-link-field="dtp_input3" data-link-format="hh:ii">
+                <input class="form-control" size="16" type="text" value="" readonly>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+            </div>
+            <input type="hidden" id="dtp_input3" value="" /><br/>
+        </div>
+        -->
         <div class="form-group">
             <label for="complaint-time" class="col-sm-2 control-label">Toimumise aeg:</label>
             <div class="col-sm-5">
-                <div class="input-group">
+                <div class="input-group date form_datetime" data-date-format="dd.mm.yyyy - hh:ii" data-link-field="complaint-time" data-link-format="dd.mm.yyyy - hh:ii">
                     <input type="text"
                            class="form-control"
-                           id="complaint-time"
-                           name="complaint-time"
+                           size="16"
+                           id="complaint-time-text"
+                           readonly="readonly"
                            placeholder="Sündmuse toimumise aeg"
                            data-rule-required="true"
                            data-msg-required="Sündmuse toimumise aeg peab olema määratud" />
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button"><i class="fa fa-fw fa-clock-o"></i></button>
-                    </span>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                 </div>
             </div>
+            <input type="hidden" id="complaint-time" name="complaint-time" />
         </div>
         <div class="form-group">
             <label for="complaint-location" class="col-sm-2 control-label">Asukoht:</label>
@@ -59,11 +71,12 @@
                            class="form-control"
                            id="complaint-location"
                            name="complaint-location"
+                           readonly="readonly"
                            placeholder="Sündmuse toimumise koht kaardil"
                            data-rule-required="true"
                            data-msg-required="Sündmuse toimumise asukoht peab olema määratud" />
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button"><i class="fa fa-fw fa-map-marker"></i></button>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-map-marker"></span>
                     </span>
                 </div>
             </div>

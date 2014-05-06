@@ -77,6 +77,15 @@ $(document).ready(function () {
         $('#container').prepend(data);
         Holder.run();
 
+        $(".form_datetime").datetimepicker({
+            autoclose: true,
+            todayHighlight: true,
+            language: "ee",
+            endDate: new Date()
+        }).on("changeDate", function (e) {
+            $("#complaint-time-text").valid();
+        });
+
         setupNewComplaintValidations();
 
         $('#complaint-add-photo').click(function() {
