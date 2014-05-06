@@ -71,6 +71,56 @@ function addPhotoInput(i) {
     });
 }
 
+function fillMap() {
+    var $modal = $('#map-dialog');
+    var mapOptions = {
+        center: new google.maps.LatLng(59.43701835253617, 24.75363627076149),
+        zoom: 8,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        disableDoubleClickZoom: true
+    };
+    var map = new google.maps.Map(document.getElementById('mapCanvas'), mapOptions);
+    var marker = new google.maps.Marker();
+    marker.setMap(map);
+    google.maps.event.addListener(map, 'dblclick', function(event) {
+        $modal.attr('data-lat', event.latLng.d);
+        $modal.attr('data-lng', event.latLng.e);
+        marker.setPosition(event.latLng);
+        map.panTo(event.latLng);
+        $modal.find('.btn-primary').removeAttr('disabled');
+    });
+    $modal.on('shown.bs.modal', function () {
+        google.maps.event.trigger(map, "resize");
+    });
+    $modal.on('hidden.bs.modal', function() {
+        $('#complaint-location').unbind('focus')
+                                .focus()
+                                .bind('focus', initLocation)
+                                .valid();
+    });
+    $modal.find('.btn-primary').click(function() {
+        $modal.modal('hide');
+        $('#complaint-location').val('' + $modal.attr('data-lat') + ';' + $modal.attr('data-lng'))
+                                .valid();
+    });
+    $modal.modal();
+}
+
+function initLocation() {
+    var $modal = $('#map-dialog');
+    if ($modal.length > 0) {
+        $modal.modal();
+    } else {
+        $.get('app/views/citizen/map-dialog.htm', function(content) {
+            $('body').append(content);
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = 'https://maps.googleapis.com/maps/api/js?v=3&sensor=false&callback=fillMap';
+            document.body.appendChild(script);
+        });
+    }
+}
+
 $(document).ready(function () {
     initNavbar();
     $.get(templateName, function (data) {
@@ -85,6 +135,9 @@ $(document).ready(function () {
         }).on("changeDate", function (e) {
             $("#complaint-time-text").valid();
         });
+
+        $('#complaint-location').focus(initLocation);
+        $('#complaint-location').next().find('span.glyphicon').click(initLocation);
 
         setupNewComplaintValidations();
 
