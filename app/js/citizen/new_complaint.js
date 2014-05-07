@@ -121,28 +121,83 @@ function initLocation() {
     }
 }
 
+function formatDate(date) {
+    var dateValue = new Date(Date.parse(date));
+    var day = ("00" + dateValue.getDate()).slice(-2);
+    var month = ("00" + (dateValue.getMonth() + 1)).slice(-2);
+    var year = dateValue.getFullYear();
+    return day + "." + month + "." + year;
+}
+
+function showCitizenList(resultSet) {
+    var $lg = $('#user-dialog .list-group');
+    if ($lg.length < 1) {
+        $lg = $('<div>').addClass('list-group vspace-10');
+        $('#user-dialog .modal-body').append($lg);
+    }
+    var $info = $('#user-dialog .alert-info').hide();
+    for (var i = 0; i < resultSet.items.length; i++) {
+        $lg.empty();
+        var item = resultSet.items[i];
+        var $a = $('<a>').attr('href', '#')
+                         .addClass('list-group-item')
+                         .append($('<h4>').addClass('list-group-item-heading')
+                                          .text(item.name + ' (sünd. ' + formatDate(item.birth_date) + ')'));
+        if (item.address && item.address.length > 0) {
+            $a.append($('<p>').addClass('list-group-item-text').text(item.address));
+        }
+        $a.click(function() {
+            $('#complaint-subject').val('' + item.name);
+            $('#complaint-subject-id').val('' + item._id.$oid);
+            $('#user-dialog').modal('hide');
+            $('#complaint-subject').valid();
+            return false;
+        });
+        $lg.append($a);
+    }
+    $lg.show();
+}
+
+function showMissingCitizenAlert() {
+    var $lg = $('#user-dialog .list-group').empty().hide();
+    var $info = $('#user-dialog .alert-info');
+    if ($info.length < 1) {
+        $info = $('<div>').addClass('alert alert-info vspace-10')
+                          .append('Otsingutingimustele vastavat isikut ei leitud. Kas soovid ')
+                          .append($('<a>').attr('href', '#').addClass('alert-link').text('lisada uut isikut'))
+                          .append('?');
+        $('#user-dialog .modal-body').append($info);
+    }
+    $info.show();
+}
+
 function initUser() {
     var $modal = $('#user-dialog');
-    if ($modal.length > 0) {
-        $modal.modal();
-    } else {
-        $.get('app/views/citizen/user-dialog.htm', function(content) {
-            $('body').append(content);
-
-            $('#search-user-form button').click(function() {
-                var query = $('#search-user-form input').val();
-                $.ajax({
-                    async: false,
-                    url: 'Kodanik/Otsi' + (query.length > 0 ? ('?name=' + encodeURI()) : ''),
-                    success: function(data) {
-                        console.log(data);
-                    }
-                });
+    if ($modal.length > 0)
+        return $modal.modal();
+    $.get('app/views/citizen/user-dialog.htm', function(content) {
+        $('body').append(content);
+        $('#user-dialog').on('shown.bs.modal', function () {
+            $('#search-user-form input').focus();
+        });
+        $('#search-user-form').submit(function() {
+            var query = $('#search-user-form input').val();
+            var resultSet = null;
+            $.ajax({
+                async: false,
+                url: 'Kodanik/Otsi?order=name&direction=asc' + (query.length > 0 ? ('&name=' + encodeURI(query)) : ''),
+                success: function(data) {
+                    resultSet = eval('x=' + data);
+                }
             });
 
-            initUser();
+            if (resultSet && resultSet.total > 0) showCitizenList(resultSet);
+            else showMissingCitizenAlert();
+
+            return false;
         });
-    }
+        initUser();
+    });
 }
 
 $(document).ready(function () {
