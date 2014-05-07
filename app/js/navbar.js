@@ -20,19 +20,19 @@ function setupLogin() {
             var location = '';
 
             $.ajax({
-                url: 'Otsi?table=t0&f0=' + encodeURI(emailValue) + '&f1=' + encodeURI(password),
+                url: 'Kasutaja/Otsi?username=' + encodeURI(emailValue) + '&password=' + encodeURI(password),
                 success: function (data) {
                     var result = eval("x=" + data);
-                    if (!result || result.length < 1) {
-                        $.removeCookie('username');
-                        $.removeCookie('role');
-                        $.removeCookie('name');
-                        location = '?page=login_failure';
-                    } else {
-                        $.cookie('username', result[0].f0);
-                        $.cookie('role', result[0].f2);
-                        $.cookie('name', result[0].f3);
+                    var user = (result && result.total > 0) ? result.items[0] : null;
+                    if (user) {
+                        $.cookie('username', user.username);
+                        $.cookie('role', user.role);
+                        $.cookie('name', user.name);
+                        $.cookie('user-id', user._id.$oid);
                         location = '?page=index';
+                    } else {
+                        for (var key in $.cookie()) { $.removeCookie(key); }
+                        location = '?page=login_failure';
                     }
                 },
                 async: false
@@ -58,6 +58,12 @@ function initNavbar(initCallback) {
         var role = $.cookie('username') ? ($.cookie('role') == 'official' ? 'official' : 'citizen') : 'anonymous';
         $.get('app/views/' + role + '/navbar.htm', function(content) {
             $('#navbar-container').append(content);
+            var page = getParameter('page');
+            if (!page || page == 'index') {
+                $("#navbar-container > div > ul > li > a[href='index.htm']").parent().addClass("active");
+            } else {
+                $("#navbar-container > div > ul > li > a[href='index.htm?page=" + page + "']").parent().addClass("active");
+            }
             switch (role) {
                 case 'official':
                 case 'citizen':

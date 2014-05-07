@@ -3,10 +3,10 @@ function setupRegistration() {
         var isSuccess = false;
         var username = $('#register-email').val();
         $.ajax({
-            url: 'Otsi?table=t0&f0='+ encodeURI(username),
+            url: 'Kasutaja/Otsi?username='+ encodeURI(username),
             success: function (data) {
                 var result = eval("x=" + data);
-                isSuccess = result.length == 0;
+                isSuccess = result.total == 0;
             },
             async:   false
         });
@@ -33,7 +33,7 @@ function setupRegistration() {
             var password = $('#register-password').val();
 
             $.ajax({
-                url: 'Salvesta?table=t0&f0=' + encodeURI(username) + '&f1=' + encodeURI(password),
+                url: 'Kasutaja/Salvesta?username=' + encodeURI(username) + '&password=' + encodeURI(password),
                 async: false
             });
 

@@ -7,14 +7,14 @@ $(document).ready(function () {
 
         var result = [];
         $.ajax({
-            url: 'Otsi?table=t1',
+            url: 'Kaebus/Otsi',
             async: false,
             success: function(data) {
                 result = eval('x=' + data);
             }
         });
 
-        if (result && result.length > 0) {
+        if (result && result.total > 0) {
             $.get('app/views/official/complaints.htm', function(content) {
                 $('#container h1').after(content);
             })

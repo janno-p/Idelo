@@ -14,17 +14,41 @@ function setupNewComplaintValidations() {
         },
 
         submitHandler: function (form) {
-            /*
-            var username = $('#register-email').val();
-            var password = $('#register-password').val();
+            var data = {
+                title: $('#complaint-title').val(),
+                subject: $('#complaint-subject-id').val(),
+                time: $('#complaint-time').val(),
+                lat: $('#complaint-location-lat').val(),
+                lng: $('#complaint-location-lng').val(),
+                tags: $('#complaint-types').val(),
+                description: $('#complaint-description').val(),
+                user: $.cookie('user-id')
+            }
 
-            $.ajax({
-                url: 'Salvesta?table=t0&f0=' + encodeURI(username) + '&f1=' + encodeURI(password),
-                async: false
+            var photoId = 1;
+            $('input[id^="complaint-photo-"]').each(function(i, e) {
+                if ($(e).val().length > 0) {
+                    data['photo' + photoId] = $(e).val();
+                    photoId += 1;
+                }
             });
 
+            var url = 'Kaebus/Salvesta?';
+            for (var key in data) {
+                url += '' + key + '=' + data[key] + '&';
+            }
 
-            window.location.href = "?page=register_success&email=" + encodeURI(username);*/
+            var id = null;
+            $.ajax({
+                url: url,
+                async: false,
+                success : function(result) {
+                    id = eval('x=' + result).$oid;
+                }
+            });
+
+            window.location.href = "?page=index&highlight=" + encodeURI(id);
+
             return false;
         }
     });
@@ -102,6 +126,8 @@ function fillMap() {
         $modal.modal('hide');
         $('#complaint-location').val('(' + $modal.attr('data-lat') + '; ' + $modal.attr('data-lng') + ')')
                                 .valid();
+        $('#complaint-location-lat').val($modal.attr('data-lat'));
+        $('#complaint-location-lng').val($modal.attr('data-lng'));
     });
     $modal.modal();
 }
@@ -179,6 +205,12 @@ function initUser() {
         $('body').append(content);
         $('#user-dialog').on('shown.bs.modal', function () {
             $('#search-user-form input').focus();
+        });
+        $('#user-dialog').on('hidden.bs.modal', function() {
+            $('#complaint-subject').unbind('focus')
+                                   .focus()
+                                   .bind('focus', initUser)
+                                   .valid();
         });
         $('#search-user-form').submit(function() {
             var query = $('#search-user-form input').val();

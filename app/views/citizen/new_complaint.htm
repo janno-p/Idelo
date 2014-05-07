@@ -38,7 +38,7 @@
         <div class="form-group">
             <label for="complaint-time" class="col-sm-2 control-label">Toimumise aeg:</label>
             <div class="col-sm-5">
-                <div class="input-group date form_datetime" data-date-format="dd.mm.yyyy - hh:ii" data-link-field="complaint-time" data-link-format="dd.mm.yyyy - hh:ii">
+                <div class="input-group date form_datetime" data-date-format="dd.mm.yyyy - hh:ii" data-link-field="complaint-time" data-link-format="yyyy-mm-ddThh:ii">
                     <input type="text"
                            class="form-control"
                            size="16"
@@ -71,6 +71,8 @@
                     </span>
                 </div>
             </div>
+            <input type="hidden" id="complaint-location-lat" name="complaint-location-lat" />
+            <input type="hidden" id="complaint-location-lng" name="complaint-location-lng" />
         </div>
         <div class="form-group">
             <label for="complaint-types" class="col-sm-2 control-label">Märksõnad:</label>
