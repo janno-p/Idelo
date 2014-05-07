@@ -19,7 +19,7 @@
         <div class="form-group">
             <label for="complaint-subject" class="col-sm-2 control-label">Subjekt:</label>
             <div class="col-sm-5">
-                <div class="input-group">
+                <div class="input-group date">
                     <input type="text"
                            class="form-control"
                            id="complaint-subject"
@@ -28,11 +28,11 @@
                            placeholder="Kaebealune isik"
                            data-rule-required="true"
                            data-msg-required="Kaebealune isik peab olema määratud" />
-                    <input type="hidden" id="complaint-subject-id" name="complaint-subject-id" />
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-search"></span>
                     </span>
                 </div>
+                <input type="hidden" id="complaint-subject-id" name="complaint-subject-id" />
             </div>
         </div>
         <div class="form-group">
@@ -105,7 +105,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-5">
-                <button type="submit" class="btn btn-primary">Salvesta</button>
+                <button type="submit" class="btn btn-primary">Esita kaebus</button>
             </div>
         </div>
     </form>

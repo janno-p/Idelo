@@ -121,6 +121,30 @@ function initLocation() {
     }
 }
 
+function initUser() {
+    var $modal = $('#user-dialog');
+    if ($modal.length > 0) {
+        $modal.modal();
+    } else {
+        $.get('app/views/citizen/user-dialog.htm', function(content) {
+            $('body').append(content);
+
+            $('#search-user-form button').click(function() {
+                var query = $('#search-user-form input').val();
+                $.ajax({
+                    async: false,
+                    url: 'Kodanik/Otsi' + (query.length > 0 ? ('?name=' + encodeURI()) : ''),
+                    success: function(data) {
+                        console.log(data);
+                    }
+                });
+            });
+
+            initUser();
+        });
+    }
+}
+
 $(document).ready(function () {
     initNavbar();
     $.get(templateName, function (data) {
@@ -138,6 +162,11 @@ $(document).ready(function () {
 
         $('#complaint-location').focus(initLocation);
         $('#complaint-location').next().find('span.glyphicon').click(initLocation);
+
+        $('#complaint-subject').focus(initUser)
+                               .next()
+                               .find('span.glyphicon')
+                               .click(initUser);
 
         setupNewComplaintValidations();
 

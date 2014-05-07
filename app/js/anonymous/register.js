@@ -18,13 +18,13 @@ function setupRegistration() {
 
         showErrors: function (errorMap, errorList) {
             $.each(this.validElements(), function (index, element) {
-                $(element).parent().removeClass("has-error");
-                $(element).data("title", "").tooltip("destroy");
+                $(element).closest('.form-group').removeClass("has-error");
+                $(element).closest('.col-sm-5').data("title", "").tooltip("destroy");
             });
 
             $.each(errorList, function (index, error) {
-                $(error.element).parent().addClass("has-error");
-                $(error.element).tooltip("destroy").data("title", error.message).tooltip({ placement: "right", trigger: "manual", container: "body" }).tooltip("show");
+                $(error.element).closest('.form-group').addClass("has-error");
+                $(error.element).closest('.col-sm-5').tooltip("destroy").data("title", error.message).tooltip({ placement: "right", trigger: "manual", container: "body" }).tooltip("show");
             });
         },
 
