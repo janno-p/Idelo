@@ -72,13 +72,13 @@ Kasutamine:
     * Elukoht
     * Foto
 
-  * Kaebus:
-    * Episoodi pealkiri
-    * Sündmuse tüüp (sildiloogikaga (tag))
-    * Kellaeg
-    * Asukoht kaardil
-    * Detailne kirjeldus
-    * Foto(d)
+  * ~~Kaebus:~~
+    * ~~Episoodi pealkiri~~
+    * ~~Sündmuse tüüp (sildiloogikaga (tag))~~
+    * ~~Kellaeg~~
+    * ~~Asukoht kaardil~~
+    * ~~Detailne kirjeldus~~
+    * ~~Foto(d)~~
 
 
 ### <a name="noudmised" />Üldised nõudmised ###

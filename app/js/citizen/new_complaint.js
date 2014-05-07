@@ -184,23 +184,61 @@ function showCitizenList(resultSet) {
     $lg.show();
 }
 
+function initNewForm() {
+    var $newForm = $('#new-user-form');
+    if ($newForm.length > 0) {
+        resetNewForm();
+    } else {
+        $.get('app/views/citizen/new-user-form.htm', function(content) {
+            $('#user-dialog .modal-body').append(content);
+            $('#user-dialog .modal-footer').append($('<button>').attr('type', 'submit')
+                                                                .attr('id', 'save-new-user-btn')
+                                                                .addClass('btn btn-primary')
+                                                                .text('Salvesta ja lisa kaebusele'));
+            resetNewForm();
+        });
+    }
+}
+
 function showMissingCitizenAlert() {
     var $lg = $('#user-dialog .list-group').empty().hide();
     var $info = $('#user-dialog .alert-info');
     if ($info.length < 1) {
+        var $a = $('<a>').attr('href', '#').addClass('alert-link').text('lisada uut isikut');
         $info = $('<div>').addClass('alert alert-info vspace-10')
                           .append('Otsingutingimustele vastavat isikut ei leitud. Kas soovid ')
-                          .append($('<a>').attr('href', '#').addClass('alert-link').text('lisada uut isikut'))
+                          .append($a)
                           .append('?');
         $('#user-dialog .modal-body').append($info);
+        $a.click(initNewForm);
     }
     $info.show();
 }
 
+function resetSearchForm() {
+    $('#new-user-form').hide();
+    $('#save-new-user-btn').hide();
+    $('#search-user-form').show();
+    $('#user-dialog .modal-title').text('Leia kaebealune isik');
+}
+
+function resetNewForm() {
+    $('#new-user-form').show();
+    $('#save-new-user-btn').show();
+    $('#search-user-form').hide();
+    $('#user-dialog .modal-body .list-group').hide();
+    $('#user-dialog .modal-body .alert').hide();
+    $('#citizen-name').val($('#search-user-form input').val());
+    $('#user-dialog .modal-title').text('Lisa kaebealune isik');
+}
+
 function initUser() {
     var $modal = $('#user-dialog');
-    if ($modal.length > 0)
+    if ($modal.length > 0) {
+        resetSearchForm();
         return $modal.modal();
+    }
+
     $.get('app/views/citizen/user-dialog.htm', function(content) {
         $('body').append(content);
         $('#user-dialog').on('shown.bs.modal', function () {
@@ -212,6 +250,7 @@ function initUser() {
                                    .bind('focus', initUser)
                                    .valid();
         });
+        $('#add-new-user').click(initNewForm);
         $('#search-user-form').submit(function() {
             var query = $('#search-user-form input').val();
             var resultSet = null;
