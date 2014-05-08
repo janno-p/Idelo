@@ -30,9 +30,9 @@ function fillComplaints (resultSet) {
         var $title = $('<td>').append(complaint.title);
         if (complaint.created_at) {
             var createdAt = new Date(Date.parse(complaint.created_at));
-            var within24h = new Date();
-            within24h.setDate(within24h.getDate() - 1);
-            if (within24h < dt) {
+            var createdAtValidTo = new Date();
+            createdAtValidTo.setDate(createdAt.getDate() + 1);
+            if (new Date() < createdAtValidTo) {
                 $title.prepend(' ').prepend($('<span>').addClass('label label-success').append('Uus'));
             }
         }

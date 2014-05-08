@@ -1,4 +1,55 @@
 
+function setupNewUserValidations() {
+    $('form#new-user-form').validate({
+        showErrors: function refreshErrorDisplay(errorMap, errorList) {
+            $.each(this.validElements(), function (index, element) {
+                $(element).closest('.form-group').removeClass("has-error");
+                $(element).closest('.col-sm-8').data("title", "").tooltip("destroy");
+            });
+
+            $.each(errorList, function (index, error) {
+                $(error.element).closest('.form-group').addClass("has-error");
+                $(error.element).closest('.col-sm-8').tooltip("destroy").data("title", error.message).tooltip({ placement: "right", trigger: "manual", container: "#user-dialog" }).tooltip("show");
+            });
+        },
+
+        submitHandler: function(form) {
+            var data = {
+                name: $('#citizen-name').val(),
+                gender: $('input[name=citizen-gender]:checked', '#new-user-form').val(),
+                birth_date: $('#citizen-birth').val(),
+                address: $('#citizen-address').val(),
+                photo_uri: $('#citizen-photo').val()
+            };
+
+            var url = 'Kodanik/Salvesta?';
+            for (var key in data) {
+                url += '' + key + '=' + data[key] + '&';
+            }
+
+            var id = null;
+            $.ajax({
+                url: url,
+                async: false,
+                success : function(result) {
+                    id = eval('x=' + result).$oid;
+                }
+            });
+
+            $('#complaint-subject').val('' + data.name);
+            $('#complaint-subject-id').val('' + id);
+            $('#user-dialog').modal('hide');
+            $('#complaint-subject').valid();
+
+            return false;
+        }
+    });
+
+    $('form#new-user-form input').blur(function () {
+        $(this).valid();
+    });
+}
+
 function setupNewComplaintValidations() {
     $('form#new-complaint-form').validate({
         showErrors: function (errorMap, errorList) {
@@ -155,30 +206,35 @@ function formatDate(date) {
     return day + "." + month + "." + year;
 }
 
-function showCitizenList(resultSet) {
-    var $lg = $('#user-dialog .list-group');
-    if ($lg.length < 1) {
-        $lg = $('<div>').addClass('list-group vspace-10');
-        $('#user-dialog .modal-body').append($lg);
+function createUserListItem(name, birth_date, address, id) {
+    var $a = $('<a>').attr('href', '#')
+                     .addClass('list-group-item')
+                     .append($('<h4>').addClass('list-group-item-heading')
+                                      .text(name + ' (sünd. ' + formatDate(birth_date) + ')'));
+    if (address && address.length > 0) {
+        $a.append($('<p>').addClass('list-group-item-text').text(address));
     }
-    var $info = $('#user-dialog .alert-info').hide();
+    $a.click(function() {
+        $('#complaint-subject').val(name);
+        $('#complaint-subject-id').val(id);
+        $('#user-dialog').modal('hide');
+        $('#complaint-subject').valid();
+        return false;
+    });
+    return $a;
+}
+
+function showCitizenList(resultSet) {
+    var $lg = $('#search-user-form .list-group');
+    if ($lg.length < 1) {
+        $lg = $('<div>').addClass('list-group vspace-10').css('overflow', 'auto').css('max-height', '300px');
+        $('#search-user-form .modal-body').append($lg);
+    }
+    var $info = $('#search-user-form .alert-info').hide();
+    $lg.empty();
     for (var i = 0; i < resultSet.items.length; i++) {
-        $lg.empty();
         var item = resultSet.items[i];
-        var $a = $('<a>').attr('href', '#')
-                         .addClass('list-group-item')
-                         .append($('<h4>').addClass('list-group-item-heading')
-                                          .text(item.name + ' (sünd. ' + formatDate(item.birth_date) + ')'));
-        if (item.address && item.address.length > 0) {
-            $a.append($('<p>').addClass('list-group-item-text').text(item.address));
-        }
-        $a.click(function() {
-            $('#complaint-subject').val('' + item.name);
-            $('#complaint-subject-id').val('' + item._id.$oid);
-            $('#user-dialog').modal('hide');
-            $('#complaint-subject').valid();
-            return false;
-        });
+        var $a = createUserListItem(item.name, item.birth_date, item.address, item._id.$oid);
         $lg.append($a);
     }
     $lg.show();
@@ -190,26 +246,33 @@ function initNewForm() {
         resetNewForm();
     } else {
         $.get('app/views/citizen/new-user-form.htm', function(content) {
-            $('#user-dialog .modal-body').append(content);
-            $('#user-dialog .modal-footer').append($('<button>').attr('type', 'submit')
-                                                                .attr('id', 'save-new-user-btn')
-                                                                .addClass('btn btn-primary')
-                                                                .text('Salvesta ja lisa kaebusele'));
+            $('#user-dialog .modal-content').append(content);
+            $(".form_datetime2").datetimepicker({
+                autoclose: true,
+                todayHighlight: true,
+                language: "ee",
+                endDate: new Date(),
+                minView: 2,
+                startView: 4,
+            }).on("changeDate", function (e) {
+                $("#citizen-birth-text").valid();
+            });
+            setupNewUserValidations();
             resetNewForm();
         });
     }
 }
 
 function showMissingCitizenAlert() {
-    var $lg = $('#user-dialog .list-group').empty().hide();
-    var $info = $('#user-dialog .alert-info');
+    var $lg = $('#search-user-form .list-group').empty().hide();
+    var $info = $('#search-user-form .alert-info');
     if ($info.length < 1) {
         var $a = $('<a>').attr('href', '#').addClass('alert-link').text('lisada uut isikut');
         $info = $('<div>').addClass('alert alert-info vspace-10')
                           .append('Otsingutingimustele vastavat isikut ei leitud. Kas soovid ')
                           .append($a)
                           .append('?');
-        $('#user-dialog .modal-body').append($info);
+        $('#search-user-form .modal-body').append($info);
         $a.click(initNewForm);
     }
     $info.show();
@@ -217,19 +280,23 @@ function showMissingCitizenAlert() {
 
 function resetSearchForm() {
     $('#new-user-form').hide();
-    $('#save-new-user-btn').hide();
     $('#search-user-form').show();
     $('#user-dialog .modal-title').text('Leia kaebealune isik');
 }
 
 function resetNewForm() {
     $('#new-user-form').show();
-    $('#save-new-user-btn').show();
     $('#search-user-form').hide();
-    $('#user-dialog .modal-body .list-group').hide();
-    $('#user-dialog .modal-body .alert').hide();
+    $('#new-user-form input').each(function(i, control) {
+        if ($(control).attr('type') == 'radio') {
+            $(control).removeAttr('checked');
+        } else {
+            $(control).val('');
+        }
+    });
     $('#citizen-name').val($('#search-user-form input').val());
     $('#user-dialog .modal-title').text('Lisa kaebealune isik');
+    $("#citizen-name").focus();
 }
 
 function initUser() {
@@ -245,6 +312,10 @@ function initUser() {
             $('#search-user-form input').focus();
         });
         $('#user-dialog').on('hidden.bs.modal', function() {
+            $('#new-user-form input').each(function (index, element) {
+                $(element).closest('.form-group').removeClass("has-error");
+                $(element).closest('.col-sm-8').data("title", "").tooltip("destroy");
+            });
             $('#complaint-subject').unbind('focus')
                                    .focus()
                                    .bind('focus', initUser)
@@ -273,6 +344,7 @@ function initUser() {
 
 $(document).ready(function () {
     initNavbar();
+
     $.get(templateName, function (data) {
         $('#container').prepend(data);
         Holder.run();
@@ -286,8 +358,10 @@ $(document).ready(function () {
             $("#complaint-time-text").valid();
         });
 
-        $('#complaint-location').focus(initLocation);
-        $('#complaint-location').next().find('span.glyphicon').click(initLocation);
+        $('#complaint-location').focus(initLocation)
+                                .next()
+                                .find('span.glyphicon')
+                                .click(initLocation);
 
         $('#complaint-subject').focus(initUser)
                                .next()
