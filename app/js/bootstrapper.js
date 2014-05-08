@@ -1,3 +1,24 @@
+var Idelo = {
+    pageSize: 5,
+    query: function(name, params) {
+        var url = name + '/Otsi?';
+        for (var key in params) url += '' + key + '=' + params[key] + '&';
+        var resultSet = null;
+        $.ajax({
+            url: url,
+            async: false,
+            success: function(content) {
+                resultSet = eval('x=' + content);
+            }
+        });
+        return resultSet;
+    },
+    queryOne: function(name, params) {
+        var resultSet = Idelo.query(name, params);
+        return resultSet.total > 0 ? resultSet.items[0] : null;
+    }
+};
+
 function getParameter(name) {
     var query = window.location.search.substring(1);
     var variables = query.split('&');

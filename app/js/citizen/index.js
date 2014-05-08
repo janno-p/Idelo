@@ -1,4 +1,59 @@
 
+function setComplaintsPage(pageNum) {
+    var resultSet = Idelo.query('Kaebus', {
+        user: $.cookie('user-id'),
+        getrows: Idelo.pageSize,
+        fromrow: ((pageNum - 1) * Idelo.pageSize)
+    });
+
+    fillComplaints(resultSet);
+    updatePager(resultSet, pageNum);
+}
+
+function createPagerItem(selectedPage, i) {
+    if (selectedPage == i) {
+        return $('<li>').addClass('active').append($('<span>').append('' + i + ' ').append($('<span>').addClass('sr-only').append('(current)')))
+    }
+    return $('<li>').append($('<a>').attr('href', '#').attr('data-page', ''+ i).append('' + i).click(function() {
+        setComplaintsPage(i);
+        return false;
+    }));
+}
+
+function updatePager(resultSet, currentPage) {
+    var $pager = $('#complaints-pager');
+    var $list = $pager.find('ul').empty();
+
+    $list.append(
+        currentPage == 1
+            ? ($('<li>').addClass('disabled').append($('<span>').append('&laquo;')))
+            : ($('<li>').append($('<a>').attr('href', '#').append('&laquo;').click(function() {
+                setComplaintsPage(1);
+                return false;
+            })))
+            );
+
+    var numPages = Math.floor((resultSet.total - 1) / Idelo.pageSize) + 1;
+    for (var i = 1; i <= numPages; i++) {
+        $list.append(createPagerItem(currentPage, i));
+    }
+
+    $list.append(
+        currentPage == numPages
+            ? ($('<li>').addClass('disabled').append($('<span>').append('&raquo;')))
+            : ($('<li>').append($('<a>').attr('href', '#').append('&raquo;').click(function() {
+                setComplaintsPage(numPages);
+                return false;
+            })))
+            );
+
+    if ($list.find('li').length > 0) {
+        $pager.show();
+    } else {
+        $pager.hide();
+    }
+}
+
 function fillComplaints (resultSet) {
     var $container = $("#complaints").find("tbody").empty();
     $.each(resultSet.items, function (index, complaint) {
@@ -8,17 +63,7 @@ function fillComplaints (resultSet) {
 
         var $tags = $("<td>");
 
-        var subjectName = null;
-        $.ajax({
-            url: 'Kodanik/Otsi?id=' + complaint.subject,
-            async: false,
-            success: function(content) {
-                var resultSet = eval('x=' + content);
-                if (resultSet.total > 0) {
-                    subjectName = resultSet.items[0].name;
-                }
-            }
-        });
+        var subjectName = Idelo.queryOne('Kodanik', { id: complaint.subject });
 
         $.each(complaint.tags, function (jndex, tag) {
             if (jndex > 0) {
@@ -52,19 +97,16 @@ $(document).ready(function () {
         $('#container').prepend(data);
         Holder.run();
 
-        var result = [];
-        $.ajax({
-            url: 'Kaebus/Otsi?user=' + $.cookie('user-id'),
-            async: false,
-            success: function(data) {
-                result = eval('x=' + data);
-            }
+        var resultSet = Idelo.query('Kaebus', {
+            user: $.cookie('user-id'),
+            getrows: Idelo.pageSize
         });
 
-        if (result && result.total > 0) {
+        if (resultSet && resultSet.total > 0) {
             $.get('app/views/citizen/complaints.htm', function(content) {
                 $('#container h1').after(content);
-                fillComplaints(result);
+                fillComplaints(resultSet);
+                updatePager(resultSet, 1);
             })
         } else {
             $.get('app/views/citizen/no-complaints.htm', function(content) {
