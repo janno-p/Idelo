@@ -1,9 +1,17 @@
 
-function setComplaintsPage(pageNum) {
+function setPage(pageNum) {
+    $('#complaints').attr('data-page', pageNum);
+}
+
+function refreshComplaintsView() {
+    var $table = $('#complaints');
+    var pageNum = $table.attr('data-page');
     var resultSet = Idelo.query('Kaebus', {
         user: $.cookie('user-id'),
         getrows: Idelo.pageSize,
-        fromrow: ((pageNum - 1) * Idelo.pageSize)
+        fromrow: ((pageNum - 1) * Idelo.pageSize),
+        order: $table.attr('data-sort-field'),
+        direction: $table.attr('data-sort-direction')
     });
 
     fillComplaints(resultSet);
@@ -15,7 +23,8 @@ function createPagerItem(selectedPage, i) {
         return $('<li>').addClass('active').append($('<span>').append('' + i + ' ').append($('<span>').addClass('sr-only').append('(current)')))
     }
     return $('<li>').append($('<a>').attr('href', '#').attr('data-page', ''+ i).append('' + i).click(function() {
-        setComplaintsPage(i);
+        setPage(i);
+        refreshComplaintsView();
         return false;
     }));
 }
@@ -28,7 +37,8 @@ function updatePager(resultSet, currentPage) {
         currentPage == 1
             ? ($('<li>').addClass('disabled').append($('<span>').append('&laquo;')))
             : ($('<li>').append($('<a>').attr('href', '#').append('&laquo;').click(function() {
-                setComplaintsPage(1);
+                setPage(1);
+                refreshComplaintsView();
                 return false;
             })))
             );
@@ -42,12 +52,13 @@ function updatePager(resultSet, currentPage) {
         currentPage == numPages
             ? ($('<li>').addClass('disabled').append($('<span>').append('&raquo;')))
             : ($('<li>').append($('<a>').attr('href', '#').append('&raquo;').click(function() {
-                setComplaintsPage(numPages);
+                setPage(numPages);
+                refreshComplaintsView();
                 return false;
             })))
             );
 
-    if ($list.find('li').length > 0) {
+    if ($list.find('li').length > 3) {
         $pager.show();
     } else {
         $pager.hide();
@@ -63,7 +74,7 @@ function fillComplaints (resultSet) {
 
         var $tags = $("<td>");
 
-        var subjectName = Idelo.queryOne('Kodanik', { id: complaint.subject });
+        var subjectName = Idelo.queryOne('Kodanik', { id: complaint.subject }).name;
 
         $.each(complaint.tags, function (jndex, tag) {
             if (jndex > 0) {
@@ -90,6 +101,24 @@ function fillComplaints (resultSet) {
     });
 }
 
+function initSorting() {
+    var $table = $('#complaints');
+    $table.find('.complaint-sort').click(function() {
+        var sortField = $(this).attr('data-id');
+        var currentField = $table.attr('data-sort-field');
+        var sortDirection = 'asc';
+        if (sortField == currentField) {
+            sortDirection = ($table.attr('data-sort-direction') == 'asc') ? 'desc' : 'asc';
+        }
+        $table.attr('data-sort-field', sortField).attr('data-sort-direction', sortDirection);
+        $table.find('.complaint-sort i').removeClass('fa-sort-asc fa-sort-desc').addClass('fa-sort');
+        $(this).find('i').removeClass('fa-sort').addClass(sortDirection == 'asc' ? 'fa-sort-desc' : 'fa-sort-asc');
+        setPage(1);
+        refreshComplaintsView();
+        return false;
+    });
+}
+
 $(document).ready(function () {
     initNavbar();
 
@@ -107,6 +136,7 @@ $(document).ready(function () {
                 $('#container h1').after(content);
                 fillComplaints(resultSet);
                 updatePager(resultSet, 1);
+                initSorting();
             })
         } else {
             $.get('app/views/citizen/no-complaints.htm', function(content) {

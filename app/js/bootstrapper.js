@@ -1,5 +1,5 @@
 var Idelo = {
-    pageSize: 5,
+    pageSize: 10,
     query: function(name, params) {
         var url = name + '/Otsi?';
         for (var key in params) url += '' + key + '=' + params[key] + '&';
