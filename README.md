@@ -65,12 +65,12 @@ Kasutamine:
     * Lihtne otsing
     * Täpsem otsing
 
-  * Kodanik:
-    * Nimi
-    * Sugu
-    * Sünniaeg
-    * Elukoht
-    * Foto
+  * ~~Kodanik:~~
+    * ~~Nimi~~
+    * ~~Sugu~~
+    * ~~Sünniaeg~~
+    * ~~Elukoht~~
+    * ~~Foto~~
 
   * ~~Kaebus:~~
     * ~~Episoodi pealkiri~~

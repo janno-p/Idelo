@@ -368,6 +368,15 @@ $(document).ready(function () {
                                .find('span.glyphicon')
                                .click(initUser);
 
+        var subjectId = getParameter('subject');
+        var subjectName = Idelo.queryOne('Kodanik', { id: subjectId }).name;
+
+        if (subjectName) {
+            $('#complaint-subject').val(subjectName);
+            $('#complaint-subject-id').val(subjectId);
+        }
+
+
         setupNewComplaintValidations();
 
         $('#complaint-add-photo').click(function() {

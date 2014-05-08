@@ -16,6 +16,19 @@ var Idelo = {
     queryOne: function(name, params) {
         var resultSet = Idelo.query(name, params);
         return resultSet.total > 0 ? resultSet.items[0] : null;
+    },
+    execute: function(path, params) {
+        var url = path + '?';
+        for (var key in params) { if (params[key]) { url += '' + key + '=' + params[key] + '&'; } }
+        var resultSet = null;
+        $.ajax({
+            url: url,
+            async: false,
+            success: function(content) {
+                resultSet = eval('x=' + content);
+            }
+        });
+        return resultSet;
     }
 };
 
@@ -50,6 +63,8 @@ function registerRoutes() {
         citizen: {
             new_complaint:
                 route('new_complaint', ['::navbar', 'new_complaint']),
+            subjects:
+                route('subjects', ['::navbar', 'subjects']),
             default:
                 route('index', ['::navbar', 'index'])
         },
