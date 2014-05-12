@@ -22,7 +22,7 @@ function setupNewUserValidations() {
                 photo_uri: $('#citizen-photo').val()
             };
 
-            var url = 'Kodanik/Salvesta?';
+            var url = 'Subject/Create?';
             for (var key in data) {
                 url += '' + key + '=' + data[key] + '&';
             }
@@ -84,7 +84,7 @@ function setupNewComplaintValidations() {
                 }
             });
 
-            var url = 'Kaebus/Salvesta?';
+            var url = 'Subject/MakeComplaint?';
             for (var key in data) {
                 url += '' + key + '=' + data[key] + '&';
             }
@@ -199,18 +199,22 @@ function initLocation() {
 }
 
 function formatDate(date) {
-    var dateValue = new Date(Date.parse(date));
-    var day = ("00" + dateValue.getDate()).slice(-2);
-    var month = ("00" + (dateValue.getMonth() + 1)).slice(-2);
-    var year = dateValue.getFullYear();
-    return day + "." + month + "." + year;
+    if (date) {
+        var day = ("00" + date.getDate()).slice(-2);
+        var month = ("00" + (date.getMonth() + 1)).slice(-2);
+        var year = date.getFullYear();
+        return day + "." + month + "." + year;
+    } else {
+        return "";
+    }
 }
 
 function createUserListItem(name, birth_date, address, id) {
+    var birthDate = birth_date ? new Date(birth_date.$date) : null;
     var $a = $('<a>').attr('href', '#')
                      .addClass('list-group-item')
                      .append($('<h4>').addClass('list-group-item-heading')
-                                      .text(name + ' (sünd. ' + formatDate(birth_date) + ')'));
+                                      .text(name + ' (sünd. ' + formatDate(birthDate) + ')'));
     if (address && address.length > 0) {
         $a.append($('<p>').addClass('list-group-item-text').text(address));
     }
@@ -234,7 +238,7 @@ function showCitizenList(resultSet) {
     $lg.empty();
     for (var i = 0; i < resultSet.items.length; i++) {
         var item = resultSet.items[i];
-        var $a = createUserListItem(item.name, item.birth_date, item.address, item._id.$oid);
+        var $a = createUserListItem(item.Name, item.BirthDate, item.Address, item._id.$oid);
         $lg.append($a);
     }
     $lg.show();
@@ -327,7 +331,7 @@ function initUser() {
             var resultSet = null;
             $.ajax({
                 async: false,
-                url: 'Kodanik/Otsi?order=name&direction=asc' + (query.length > 0 ? ('&name=' + encodeURI(query)) : ''),
+                url: 'Subject/Find?order=name&direction=asc' + (query.length > 0 ? ('&name=' + encodeURI(query)) : ''),
                 success: function(data) {
                     resultSet = eval('x=' + data);
                 }
@@ -369,13 +373,14 @@ $(document).ready(function () {
                                .click(initUser);
 
         var subjectId = getParameter('subject');
-        var subjectName = Idelo.queryOne('Kodanik', { id: subjectId }).name;
-
-        if (subjectName) {
-            $('#complaint-subject').val(subjectName);
-            $('#complaint-subject-id').val(subjectId);
+        if (subjectId) {
+            var subjects = Idelo.execute('Subject/Find', { id: subjectId });
+            var subjectName = subjects.total == 1 ? subjects.items[0].Name : null;
+            if (subjectName) {
+                $('#complaint-subject').val(subjectName);
+                $('#complaint-subject-id').val(subjectId);
+            }
         }
-
 
         setupNewComplaintValidations();
 

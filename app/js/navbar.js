@@ -20,14 +20,13 @@ function setupLogin() {
             var location = '';
 
             $.ajax({
-                url: 'Kasutaja/Otsi?username=' + encodeURI(emailValue) + '&password=' + encodeURI(password),
+                url: 'User/Auth?email=' + encodeURI(emailValue) + '&password=' + encodeURI(password),
                 success: function (data) {
-                    var result = eval("x=" + data);
-                    var user = (result && result.total > 0) ? result.items[0] : null;
+                    var user = eval("x=" + data);
                     if (user) {
-                        $.cookie('username', user.username);
-                        $.cookie('role', user.role);
-                        $.cookie('name', user.name);
+                        $.cookie('username', user.Email);
+                        $.cookie('role', user.Role);
+                        $.cookie('name', user.Name);
                         $.cookie('user-id', user._id.$oid);
                         location = '?page=index';
                     } else {

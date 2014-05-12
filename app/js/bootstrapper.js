@@ -25,7 +25,7 @@ var Idelo = {
             url: url,
             async: false,
             success: function(content) {
-                resultSet = eval('x=' + content);
+                resultSet = JSON.parse(content);
             }
         });
         return resultSet;

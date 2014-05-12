@@ -6,7 +6,7 @@ function setPage(pageNum) {
 function refreshComplaintsView() {
     var $table = $('#complaints');
     var pageNum = $table.attr('data-page');
-    var resultSet = Idelo.query('Kaebus', {
+    var resultSet = Idelo.execute('Subject/FindComplaint', {
         user: $.cookie('user-id'),
         getrows: Idelo.pageSize,
         fromrow: ((pageNum - 1) * Idelo.pageSize),
@@ -68,24 +68,22 @@ function updatePager(resultSet, currentPage) {
 function fillComplaints (resultSet) {
     var $container = $("#complaints").find("tbody").empty();
     $.each(resultSet.items, function (index, complaint) {
-        var dt = new Date(Date.parse(complaint.time));
+        var dt = complaint.Complaints.Time ? new Date(complaint.Complaints.Time.$date) : null;
         var datePart = ("00" + dt.getDate()).slice(-2) + "." + ("00" + (dt.getMonth() + 1)).slice(-2) + "." + dt.getFullYear();
         var timePart = ("00" + dt.getHours()).slice(-2) + ":" + ("00" + dt.getMinutes()).slice(-2);
 
         var $tags = $("<td>");
 
-        var subjectName = Idelo.queryOne('Kodanik', { id: complaint.subject }).name;
-
-        $.each(complaint.tags, function (jndex, tag) {
+        $.each(complaint.Complaints.Tags, function (jndex, tag) {
             if (jndex > 0) {
                 $tags.append(" ");
             }
             $tags.append($("<span>").addClass("label label-info").append(tag));
         });
 
-        var $title = $('<td>').append(complaint.title);
-        if (complaint.created_at) {
-            var createdAt = new Date(Date.parse(complaint.created_at));
+        var $title = $('<td>').append(complaint.Complaints.Title);
+        if (complaint.CreatedAt) {
+            var createdAt = new Date(complaint.Complaints.CreatedAt.$date);
             var createdAtValidTo = new Date();
             createdAtValidTo.setDate(createdAt.getDate() + 1);
             if (new Date() < createdAtValidTo) {
@@ -95,7 +93,7 @@ function fillComplaints (resultSet) {
 
         $("<tr>").append($title)
                  .append($("<td>").append(datePart + " - " + timePart))
-                 .append($("<td>").append(subjectName))
+                 .append($("<td>").append(complaint.Name))
                  .append($tags)
                  .appendTo($container);
     });
@@ -126,7 +124,7 @@ $(document).ready(function () {
         $('#container').prepend(data);
         Holder.run();
 
-        var resultSet = Idelo.query('Kaebus', {
+        var resultSet = Idelo.execute('Subject/FindComplaint', {
             user: $.cookie('user-id'),
             getrows: Idelo.pageSize
         });

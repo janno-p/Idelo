@@ -4,7 +4,7 @@ function initTagsAutoComplete() {
     $("#event-type-filter").typeahead({
         source: function(query, process) {
             $.ajax({
-                url: 'Kaebus/Sildid?q=' + query + '&count=8',
+                url: 'Subject/Tags?q=' + query + '&count=8',
                 success: function(data) {
                     var x = JSON.parse(data);
                     var xs = [];
@@ -60,7 +60,7 @@ function getSubjectSet() {
     var pageNum = $table.attr('data-page') || 1;
     var sortField = $table.attr('data-sort-field');
     var sortDirection = $table.attr('data-sort-direction');
-    return Idelo.execute('Kodanik/MinuSubjektid', {
+    return Idelo.execute('Subject/OfUser', {
         user: $.cookie('user-id'),
         tags: selectedFilters.toString(),
         getrows: Idelo.pageSize,
@@ -80,20 +80,20 @@ function fillSubjectsTable(subjectSet) {
                                                    .append($('<a>').attr('href', '#')
                                                                    .addClass('dropdown-toggle')
                                                                    .attr('data-toggle', 'dropdown')
-                                                                   .append(subject.name + ' ')
+                                                                   .append(subject.Name + ' ')
                                                                    .append($('<strong>').addClass('caret')))
                                                    .append($('<ul>').addClass('dropdown-menu')
                                                                     .append($('<li>').append($('<a>').attr('href', 'index.htm?page=new_complaint&subject=' + subject._id.$oid)
                                                                                                      .addClass('modify-citizen')
                                                                                                      .append('Tee kodaniku kohta uus kaebus')))));
-            var birthDate = new Date(Date.parse(subject.birth_date));
-            var gender = subject.gender;
+            var birthDate = subject.BirthDate ? new Date(subject.BirthDate.$date) : null;
+            var gender = subject.Gender;
             if (gender == 'male') gender = 'Mees';
             if (gender == 'female') gender = 'Naine';
             $("<tr>").append($name)
                      .append($('<td>').append(("00" + birthDate.getDate()).slice(-2) + "." + ("00" + (birthDate.getMonth() + 1)).slice(-2) + "." + birthDate.getFullYear()))
                      .append($('<td>').append(gender))
-                     .append($('<td>').append(subject.address))
+                     .append($('<td>').append(subject.Address))
                      .appendTo($container);
         });
     } else {
