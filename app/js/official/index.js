@@ -63,9 +63,14 @@ function updatePager(resultSet, currentPage) {
     }
 }
 
-function formatDate(date) {
+function formatDate(date, withTime) {
     if (date) {
-        return ('00' + date.getDate()).slice(-2) + '.' + ('00' + (date.getMonth() + 1)).slice(-2) + '.' + date.getFullYear()
+        var datePart = ('00' + date.getDate()).slice(-2) + '.' + ('00' + (date.getMonth() + 1)).slice(-2) + '.' + date.getFullYear();
+        if (withTime) {
+            return datePart + " - " + ("00" + date.getHours()).slice(-2) + ":" + ("00" + date.getMinutes()).slice(-2);
+        } else {
+            return datePart;
+        }
     } else {
         return '-';
     }
@@ -96,7 +101,7 @@ function fillSubjects (resultSet) {
                  .append($gender)
                  .append($('<td>').append(subject.Address ? subject.Address : '-'))
                  .append($('<td>').append('' + item.NumComplaints))
-                 .append($('<td>').append(item.LatestComplaint ? formatDate(item.LatestComplaint.$date) : '-'))
+                 .append($('<td>').append(item.LatestComplaint ? formatDate(new Date(item.LatestComplaint.$date), true) : '-'))
                  .appendTo($container);
     });
 }

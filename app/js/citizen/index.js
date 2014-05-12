@@ -82,7 +82,7 @@ function fillComplaints (resultSet) {
         });
 
         var $title = $('<td>').append(complaint.Complaints.Title);
-        if (complaint.CreatedAt) {
+        if (complaint.Complaints.CreatedAt) {
             var createdAt = new Date(complaint.Complaints.CreatedAt.$date);
             var createdAtValidTo = new Date();
             createdAtValidTo.setDate(createdAt.getDate() + 1);

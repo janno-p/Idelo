@@ -69,6 +69,8 @@ function registerRoutes() {
                 route('index', ['::navbar', 'index'])
         },
         official: {
+            tags:
+                route('tags', ['::navbar', 'tags']),
             default:
                 route('index', ['::navbar', 'index'])
         }

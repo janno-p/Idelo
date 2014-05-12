@@ -58,8 +58,8 @@ Kasutamine:
 
   * ~~Konkreetse kodaniku vaade - kuvatakse ainult sisseloginud kasutaja kaebused~~
 
-  * Julgeolekutöötaja vaade - kuvatakse kõik kodaniku kohta saadaolev info
-    * Sündmuste tüüpide lisamine
+  * ~~Julgeolekutöötaja vaade - kuvatakse kõik kodaniku kohta saadaolev info~~
+    * ~~Sündmuste tüüpide lisamine~~
 
   * Otsing
     * Lihtne otsing
