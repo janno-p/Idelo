@@ -75,6 +75,11 @@ function initNavbar(initCallback) {
                     $('#button-logout').click(function() {
                         clearSession();
                     });
+
+                    $('#search-form').submit(function() {
+                        window.location.href = 'index.htm?page=search&query=' + $('#search-form input[type="text"]').val();
+                        return false;
+                    });
                     break;
                 default:
                     setupLogin();

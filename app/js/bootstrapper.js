@@ -65,6 +65,8 @@ function registerRoutes() {
                 route('new_complaint', ['::navbar', 'new_complaint']),
             subjects:
                 route('subjects', ['::navbar', 'subjects']),
+            search:
+                route('search', ['::navbar', 'search']),
             default:
                 route('index', ['::navbar', 'index'])
         },
